@@ -271,6 +271,60 @@
       to { transform: rotate(360deg); }
     }
     
+    /* Sélecteur de source de jeu */
+    .game-source-selector {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid var(--primary);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .game-source-selector:hover {
+      background: var(--primary);
+    }
+    
+    .source-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 0, 0, 0.95);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 10px;
+      min-width: 200px;
+      z-index: 201;
+    }
+    
+    .game-source-selector:hover .source-options {
+      display: block;
+    }
+    
+    .source-option {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      transition: background 0.2s;
+    }
+    
+    .source-option:hover {
+      background: var(--primary);
+    }
+    
+    .source-option.active {
+      background: var(--primary);
+      font-weight: bold;
+    }
+    
     footer {
       text-align: center;
       padding: 25px;
@@ -842,12 +896,24 @@
           <div class="spinner"></div>
           <p>Chargement du jeu Subway Surfers 2025...</p>
         </div>
+        
+        <!-- Sélecteur de source de jeu -->
+        <div class="game-source-selector">
+          🔄 Source du jeu
+          <div class="source-options">
+            <div class="source-option active" data-source="https://poki.com/fr/g/subway-surfers">Poki.com (Recommandé)</div>
+            <div class="source-option" data-source="https://subwaysurfers.io">SubwaySurfers.io</div>
+            <div class="source-option" data-source="https://html5.gamedistribution.com/rvvASMiM/9d36b5d0e6a440c1bda6d92b2c59c821/index.html">Version HTML5</div>
+            <div class="source-option" data-source="https://www.crazygames.com/embed/subway-surfers">CrazyGames</div>
+          </div>
+        </div>
+        
         <button class="fs-button" id="fs-btn" title="Plein écran">⤢ Plein écran</button>
         
         <!-- Conteneur pour le jeu fonctionnel -->
         <div id="game-container" style="width:100%;height:100%;">
-          <!-- UTILISATION DE LA NOUVELLE SOURCE FOURNIE -->
-          <iframe class="game-embedded" id="game-iframe" src="https://subwaysurferapks.com/" allowfullscreen></iframe>
+          <!-- SOURCES DE JEU ALTERNATIVES QUI FONCTIONNENT -->
+          <iframe class="game-embedded" id="game-iframe" src="https://poki.com/fr/g/subway-surfers" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -927,7 +993,9 @@
         fps: { x: 20, y: 100 },
         top3: { x: 20, y: 200 },
         timer: { x: 20, y: 20 }
-      }
+      },
+      // Source de jeu
+      gameSource: "https://poki.com/fr/g/subway-surfers"
     };
 
     // ============= VARIABLES GLOBALES =============
@@ -948,7 +1016,6 @@
     let timerVisible = false;
 
     // ============= CHARGEMENT DE LA PAGE =============
-    // Forcer le jeu à se lancer immédiatement
     window.addEventListener('load', function() {
       console.log('✅ Page chargée, initialisation du jeu...');
       hideLoading();
@@ -975,6 +1042,40 @@
       }
     }
 
+    // ============= SYSTÈME DE CHANGEMENT DE SOURCE =============
+    function setupGameSourceSelector() {
+      const sourceOptions = document.querySelectorAll('.source-option');
+      
+      sourceOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const source = this.getAttribute('data-source');
+          
+          // Mettre à jour l'affichage
+          sourceOptions.forEach(opt => opt.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Changer la source
+          changeGameSource(source);
+        });
+      });
+    }
+
+    function changeGameSource(source) {
+      showNotification('🔄 Changement de source de jeu...', 'info');
+      loadingUI.style.display = 'block';
+      
+      setTimeout(() => {
+        iframe.src = source;
+        config.gameSource = source;
+        saveConfig();
+        
+        setTimeout(() => {
+          hideLoading();
+          showNotification('✅ Nouvelle source chargée!', 'success');
+        }, 2000);
+      }, 500);
+    }
+
     // ============= SYSTÈME DE DÉPLACEMENT DES OVERLAYS =============
     function makeDraggable(element) {
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -984,27 +1085,22 @@
       function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
-        // get the mouse cursor position at startup
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves
         document.onmousemove = elementDrag;
       }
       
       function elementDrag(e) {
         e = e || window.event;
         e.preventDefault();
-        // calculate the new cursor position
         pos1 = pos3 - e.clientX;
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-        // set the element's new position
         element.style.top = (element.offsetTop - pos2) + "px";
         element.style.left = (element.offsetLeft - pos1) + "px";
         
-        // Sauvegarder la position
         const overlayId = element.id;
         if (config.overlayPositions[overlayId.replace('-overlay', '')]) {
           config.overlayPositions[overlayId.replace('-overlay', '')] = {
@@ -1015,11 +1111,8 @@
       }
       
       function closeDragElement() {
-        // stop moving when mouse button is released
         document.onmouseup = null;
         document.onmousemove = null;
-        
-        // Sauvegarder la configuration
         saveConfig();
       }
     }
@@ -1028,11 +1121,9 @@
     function setupZQSDSystem() {
       console.log('🎮 Activation du système ZQSD...');
       
-      // Nettoyer les anciens écouteurs
       document.removeEventListener('keydown', handleZQSDKeyDown, true);
       document.removeEventListener('keyup', handleZQSDKeyUp, true);
       
-      // Ajouter les nouveaux écouteurs en phase de CAPTURE
       document.addEventListener('keydown', handleZQSDKeyDown, true);
       document.addEventListener('keyup', handleZQSDKeyUp, true);
       
@@ -1049,8 +1140,6 @@
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        
-        // Envoyer l'événement mappé
         dispatchMappedKey(mappedKey, 'keydown');
       }
     }
@@ -1065,7 +1154,6 @@
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        
         dispatchMappedKey(mappedKey, 'keyup');
       }
     }
@@ -1084,7 +1172,6 @@
 
     function dispatchMappedKey(mappedKey, eventType) {
       try {
-        // Créer l'événement clavier
         const event = new KeyboardEvent(eventType, {
           key: mappedKey.key,
           code: mappedKey.code,
@@ -1095,7 +1182,6 @@
           composed: true
         });
         
-        // Envoyer à l'iframe
         if (iframe.contentWindow) {
           iframe.contentWindow.dispatchEvent(event);
         }
@@ -1104,7 +1190,6 @@
           iframe.contentDocument.documentElement?.dispatchEvent(event);
         }
         
-        // PostMessage de secours
         iframe.contentWindow?.postMessage({
           type: 'keyboard_event',
           eventType: eventType,
@@ -1122,10 +1207,8 @@
     function setupTimerSystem() {
       console.log('⏱️ Activation du système de timer amélioré...');
       
-      // Écouteur pour les touches du timer
       document.addEventListener('keydown', handleTimerKeyDown, true);
       
-      // Écouteurs pour les boutons du timer
       const timerButtons = timerOverlay.querySelectorAll('.timer-btn');
       timerButtons[0].addEventListener('click', startTimer);
       timerButtons[1].addEventListener('click', pauseTimer);
@@ -1139,26 +1222,19 @@
       
       const key = e.key.toLowerCase();
       
-      // Vérification des touches du timer
       if (key === config.timerStartKey.toLowerCase() && !e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey) {
         e.preventDefault();
         e.stopPropagation();
-        e.stopImmediatePropagation();
-        
         startTimer();
       } 
       else if (key === config.timerPauseKey.toLowerCase() && !e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey) {
         e.preventDefault();
         e.stopPropagation();
-        e.stopImmediatePropagation();
-        
         pauseTimer();
       }
       else if (key === config.timerResetKey.toLowerCase() && !e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey) {
         e.preventDefault();
         e.stopPropagation();
-        e.stopImmediatePropagation();
-        
         resetTimer();
       }
     }
@@ -1167,7 +1243,6 @@
       if (!timerVisible) return;
       
       if (timerState === 'stopped' || timerState === 'paused') {
-        // Démarrer ou reprendre le timer
         timerStartTime = performance.now() - timerCurrentTime;
         timerState = 'running';
         updateTimerDisplay();
@@ -1187,7 +1262,6 @@
     function pauseTimer() {
       if (!timerVisible || timerState !== 'running') return;
       
-      // Mettre en pause
       cancelAnimationFrame(timerInterval);
       timerState = 'paused';
       console.log('⏸️ Timer en pause');
@@ -1196,7 +1270,6 @@
     function resetTimer() {
       if (!timerVisible) return;
       
-      // Reset
       cancelAnimationFrame(timerInterval);
       timerState = 'stopped';
       timerCurrentTime = 0;
@@ -1239,8 +1312,6 @@
     // ============= DÉBLOCAGE COMPLET =============
     function unlockAllCharacters() {
       console.log('🔓 Déblocage de tous les personnages...');
-      
-      // Simulation du déblocage
       showNotification('🎉 Tous les personnages débloqués! Rafraîchissez la page pour voir les changements.', 'success', true);
     }
 
@@ -1299,7 +1370,6 @@
           gameFrame.webkitRequestFullscreen();
         }
         
-        // Réappliquer les overlays si configuré
         if (config.fullscreenKeepOverlays) {
           setTimeout(() => {
             applyOverlaysFromConfig();
@@ -1312,7 +1382,6 @@
 
     document.getElementById('fs-btn').addEventListener('click', toggleFullscreen);
 
-    // Gérer la sortie du mode plein écran
     document.addEventListener('fullscreenchange', function() {
       if (!document.fullscreenElement) {
         setTimeout(() => {
@@ -1325,19 +1394,11 @@
 
     // ============= GESTION DES THÈMES =============
     function changeTheme(themeName) {
-      // Retirer toutes les classes de thème
       document.body.classList.remove('theme-violet', 'theme-white', 'theme-dark', 'theme-red', 'theme-green', 'theme-blue');
-      
-      // Ajouter la nouvelle classe de thème
       document.body.classList.add(`theme-${themeName}`);
-      
-      // Mettre à jour la configuration
       config.theme = themeName;
       saveConfig();
-      
-      // Mettre à jour les particules
       initParticles();
-      
       showNotification(`🎨 Thème ${themeName.charAt(0).toUpperCase() + themeName.slice(1)} appliqué!`, 'success');
     }
 
@@ -1524,14 +1585,9 @@
       `;
       
       document.body.appendChild(div);
-      
-      // Initialiser les onglets
       initSettingsTabs();
-      
-      // Initialiser les écouteurs d'événements
       initSettingsEventListeners();
       
-      // Ajouter les écouteurs pour changer les touches
       document.querySelectorAll('#mynvo-settings .key-display').forEach(display => {
         display.addEventListener('click', function() {
           startKeySetting(this.dataset.key);
@@ -1546,12 +1602,8 @@
       tabs.forEach(tab => {
         tab.addEventListener('click', function() {
           const tabId = this.dataset.tab;
-          
-          // Désactiver tous les onglets
           tabs.forEach(t => t.classList.remove('active'));
           contents.forEach(c => c.classList.remove('active'));
-          
-          // Activer l'onglet sélectionné
           this.classList.add('active');
           document.getElementById(`${tabId}-tab`).classList.add('active');
         });
@@ -1559,7 +1611,6 @@
     }
 
     function initSettingsEventListeners() {
-      // Toggle switches
       document.getElementById('show-fps').addEventListener('change', function() {
         config.showFPS = this.checked;
         saveConfig();
@@ -1590,7 +1641,6 @@
         }
       });
       
-      // Sliders de taille
       document.getElementById('fps-size').addEventListener('input', function() {
         const value = this.value;
         document.getElementById('fps-size-value').textContent = value + 'x';
@@ -1626,7 +1676,6 @@
       
       showNotification(`Appuyez sur une touche pour ${keyType}...`, 'info');
       
-      // Écouteur temporaire pour capturer la nouvelle touche
       const keyListener = function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1634,13 +1683,11 @@
         let keyValue = e.key.toLowerCase();
         let displayValue = e.key.toUpperCase();
         
-        // Gestion spéciale pour la barre d'espace
         if (e.code === 'Space') {
           keyValue = ' ';
           displayValue = 'ESPACE';
         }
         
-        // Gestion des touches modificatrices
         if (e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey) {
           keyValue = 'Control';
           displayValue = 'CTRL';
@@ -1652,26 +1699,20 @@
           displayValue = 'ALT';
         }
         
-        // Affecter la nouvelle touche
         if (keyType.startsWith('timer')) {
           config[keyType] = keyValue;
         } else {
           config.customKeys[keyType] = keyValue;
         }
         
-        // Mettre à jour l'affichage
         display.textContent = displayValue;
         display.classList.remove('active');
-        
-        // Sauvegarder et réinitialiser
         saveConfig();
         document.removeEventListener('keydown', keyListener);
         isSettingKey = false;
         currentKeySetting = null;
         
         showNotification(`✅ Touche ${keyType} définie sur: ${displayValue}`, 'success');
-        
-        // Reconfigurer les contrôles
         setupZQSDSystem();
         setupTimerSystem();
       };
@@ -1746,19 +1787,16 @@
 
     // ============= APPLICATION DES TAILLES DES OVERLAYS =============
     function applyOverlaySizes() {
-      // FPS
       const fpsOverlay = document.getElementById('fps-overlay');
       if (fpsOverlay) {
         fpsOverlay.style.transform = `scale(${config.overlaySizes.fps})`;
       }
       
-      // TOP 3
       const top3Overlay = document.getElementById('top3-overlay');
       if (top3Overlay) {
         top3Overlay.style.transform = `scale(${config.overlaySizes.top3})`;
       }
       
-      // Timer
       const timerOverlay = document.getElementById('speedrun-timer-overlay');
       if (timerOverlay) {
         timerOverlay.style.transform = `scale(${config.overlaySizes.timer})`;
@@ -1767,21 +1805,18 @@
 
     // ============= APPLICATION DES POSITIONS DES OVERLAYS =============
     function applyOverlayPositions() {
-      // FPS
       const fpsOverlay = document.getElementById('fps-overlay');
       if (fpsOverlay && config.overlayPositions.fps) {
         fpsOverlay.style.left = config.overlayPositions.fps.x + 'px';
         fpsOverlay.style.top = config.overlayPositions.fps.y + 'px';
       }
       
-      // TOP 3
       const top3Overlay = document.getElementById('top3-overlay');
       if (top3Overlay && config.overlayPositions.top3) {
         top3Overlay.style.left = config.overlayPositions.top3.x + 'px';
         top3Overlay.style.top = config.overlayPositions.top3.y + 'px';
       }
       
-      // Timer
       const timerOverlay = document.getElementById('speedrun-timer-overlay');
       if (timerOverlay && config.overlayPositions.timer) {
         timerOverlay.style.left = config.overlayPositions.timer.x + 'px';
@@ -1824,12 +1859,10 @@
           const savedConfig = JSON.parse(saved);
           config = { ...config, ...savedConfig };
           
-          // S'assurer que customKeys existe
           if (savedConfig.customKeys) {
             config.customKeys = { ...config.customKeys, ...savedConfig.customKeys };
           }
           
-          // Appliquer le thème sauvegardé
           if (savedConfig.theme) {
             changeTheme(savedConfig.theme);
           }
@@ -1846,11 +1879,7 @@
       document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
       document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
       timerVisible = config.showTimer;
-      
-      // Appliquer les tailles
       applyOverlaySizes();
-      
-      // Appliquer les positions
       applyOverlayPositions();
     }
 
@@ -1867,19 +1896,12 @@
     function initializeExtensionFeatures() {
       console.log('🚀 Initialisation des fonctionnalités...');
       
-      // 1. Charger la configuration
       loadConfig();
-      
-      // 2. Appliquer l'état des overlays
       applyOverlaysFromConfig();
-      
-      // 3. Activer le système ZQSD
       setupZQSDSystem();
-      
-      // 4. Activer le système de timer
       setupTimerSystem();
+      setupGameSourceSelector();
       
-      // 5. Rendre les overlays déplaçables
       makeDraggable(document.getElementById('fps-overlay'));
       makeDraggable(document.getElementById('top3-overlay'));
       makeDraggable(document.getElementById('speedrun-timer-overlay'));
@@ -1891,16 +1913,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       console.log('📄 DOM chargé, initialisation...');
       
-      // Initialiser les particules
       initParticles();
-      
-      // Charger la configuration
       loadConfig();
-      
-      // Appliquer l'état des overlays
       applyOverlaysFromConfig();
       
-      // Activer le menu rapide au clic droit
       document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         toggleBottomMenu();
@@ -1929,9 +1945,10 @@
     console.log('   • Configuration complète des touches');
     console.log('   • 6 thèmes différents');
     console.log('   • Overlays personnalisables (taille et position)');
+    console.log('   • 4 sources de jeu alternatives');
     console.log('');
     console.log('%c💡 Astuce:', 'color: #ffaa00; font-weight: bold;');
-    console.log('   Ouvrez les "Paramètres" pour personnaliser l\'expérience!');
+    console.log('   Utilisez le bouton "🔄 Source du jeu" pour changer de source si une ne fonctionne pas!');
     console.log('   Cliquez-droit pour ouvrir le menu rapide!');
     console.log('   Glissez-déposez les éléments pour les repositionner!');
     console.log('');
