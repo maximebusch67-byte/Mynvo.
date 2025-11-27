@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subway Surfers by Mynvo - Édition 2025 Complète</title>
+    <title>Subway Surfers by Mynvo - Édition 2025</title>
     <style>
         :root {
             --primary: #7c62dc;
@@ -41,39 +41,6 @@
             --text-muted: #aaaaaa;
         }
 
-        .theme-red {
-            --primary: #dc3545;
-            --primary-dark: #c82333;
-            --primary-light: #e4606d;
-            --primary-transparent: rgba(220, 53, 69, 0.15);
-            --bg-dark: #1a0a0a;
-            --bg-card: rgba(40, 20, 20, 0.9);
-            --text-light: #f0f0f0;
-            --text-muted: #ccaaaa;
-        }
-
-        .theme-green {
-            --primary: #28a745;
-            --primary-dark: #218838;
-            --primary-light: #4cbb6b;
-            --primary-transparent: rgba(40, 167, 69, 0.15);
-            --bg-dark: #0a1a0a;
-            --bg-card: rgba(20, 40, 20, 0.9);
-            --text-light: #f0f0f0;
-            --text-muted: #aaccaa;
-        }
-
-        .theme-blue {
-            --primary: #007bff;
-            --primary-dark: #0069d9;
-            --primary-light: #4d9fff;
-            --primary-transparent: rgba(0, 123, 255, 0.15);
-            --bg-dark: #0a0a1a;
-            --bg-card: rgba(20, 20, 40, 0.9);
-            --text-light: #f0f0f0;
-            --text-muted: #aaaacc;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -81,7 +48,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
             color: var(--text-light);
             min-height: 100vh;
@@ -94,14 +61,13 @@
             min-height: 100vh;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
         }
 
         /* Header Styles */
         header {
             background: var(--primary-transparent);
             backdrop-filter: blur(12px);
-            padding: 1rem 0;
+            padding: 1rem 2rem;
             border-bottom: 2px solid var(--primary);
             position: sticky;
             top: 0;
@@ -112,7 +78,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
         }
 
         .logo {
@@ -152,7 +117,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem 0;
+            padding: 2rem;
         }
 
         .game-container {
@@ -218,12 +183,12 @@
         }
 
         #fps-overlay {
-            top: 80px;
+            top: 100px;
             right: 20px;
             background: rgba(0, 0, 0, 0.9);
             color: var(--success);
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 10px 15px;
+            border-radius: 10px;
             border: 2px solid var(--success);
             font-family: 'Courier New', monospace;
             font-weight: bold;
@@ -390,7 +355,7 @@
             padding: 2rem;
             z-index: 100000;
             max-width: 90%;
-            width: 700px;
+            width: 600px;
             max-height: 80vh;
             overflow-y: auto;
             backdrop-filter: blur(20px);
@@ -398,35 +363,6 @@
         }
 
         .modal.active {
-            display: block;
-        }
-
-        .settings-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary);
-            flex-wrap: wrap;
-        }
-
-        .settings-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            font-weight: 600;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .settings-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .settings-content {
-            display: none;
-        }
-
-        .settings-content.active {
             display: block;
         }
 
@@ -458,27 +394,6 @@
             min-width: 120px;
             color: var(--text-muted);
             font-size: 14px;
-        }
-
-        .key-display {
-            padding: 8px 12px;
-            background: var(--bg-dark);
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 60px;
-        }
-
-        .key-display:hover {
-            border-color: var(--primary-light);
-        }
-
-        .key-display.active {
-            border-color: var(--success);
-            background: rgba(0, 204, 102, 0.1);
         }
 
         .toggle-switch {
@@ -550,51 +465,6 @@
         .theme-option.violet { background: linear-gradient(135deg, #7c62dc, #6a50c9); color: white; }
         .theme-option.white { background: linear-gradient(135deg, #f5f5f5, #e0e0e0); color: #333; }
         .theme-option.dark { background: linear-gradient(135deg, #333, #222); color: white; }
-        .theme-option.red { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
-        .theme-option.green { background: linear-gradient(135deg, #28a745, #218838); color: white; }
-        .theme-option.blue { background: linear-gradient(135deg, #007bff, #0069d9); color: white; }
-
-        .color-picker {
-            width: 40px;
-            height: 25px;
-            border: 2px solid var(--primary);
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .size-slider {
-            flex: 1;
-        }
-
-        /* Notifications */
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-card);
-            color: var(--text-light);
-            padding: 12px 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 100001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .notification.show {
-            opacity: 1;
-        }
 
         /* Footer */
         footer {
@@ -658,10 +528,6 @@
                 width: 95%;
                 padding: 1rem;
             }
-
-            .settings-tabs {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -675,7 +541,6 @@
                 <div class="nav-links">
                     <a id="play-btn">🎮 Jouer</a>
                     <a id="settings-btn">⚙️ Paramètres</a>
-                    <a id="help-btn">❓ Aide</a>
                 </div>
             </div>
         </header>
@@ -690,9 +555,9 @@
                     
                     <div class="game-controls">
                         <button class="control-btn" id="fullscreen-btn">⤢ Plein écran</button>
-                        <button class="control-btn" id="source-btn">🔄 Sources</button>
                     </div>
 
+                    <!-- YOUR GAME LINK INTEGRATED HERE -->
                     <iframe id="game-iframe" 
                             src="https://yell0wsuit.page/assets/games/subway-surfers-unity/index.html"
                             allowfullscreen>
@@ -731,122 +596,74 @@
             <div class="menu-title">⚙️ Menu Rapide</div>
             <button class="close-btn" id="close-menu-btn">✖</button>
         </div>
-        <button class="quick-btn" onclick="openSettingsModal()">🎮 Configuration complète</button>
+        <button class="quick-btn" onclick="openSettingsModal()">🎮 Paramètres complets</button>
         <button class="quick-btn" onclick="toggleTimer()">⏱️ Timer Speedrun</button>
         <button class="quick-btn" onclick="toggleFPS()">📊 Afficher/Masquer FPS</button>
         <button class="quick-btn" onclick="toggleFullscreen()">⤢ Plein écran</button>
         <button class="quick-btn" onclick="toggleTop3()">🏆 Afficher/Masquer TOP 3</button>
-        <button class="quick-btn give-piece-btn" onclick="unlockAllCharacters()">🔓 Débloquer Tout (100%)</button>
+        <button class="quick-btn give-piece-btn" onclick="unlockAllCharacters()">🔓 Débloquer Tout</button>
     </div>
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
-        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">🎮 Configuration Complète</h2>
+        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">⚙️ Paramètres</h2>
         
-        <div class="settings-tabs">
-            <div class="settings-tab active" data-tab="controls">🎯 Contrôles</div>
-            <div class="settings-tab" data-tab="display">👁️ Affichage</div>
-            <div class="settings-tab" data-tab="themes">🎨 Thèmes</div>
-            <div class="settings-tab" data-tab="game">🎮 Jeu</div>
-        </div>
-
-        <div id="controls-tab" class="settings-content active">
-            <div class="settings-section">
-                <h3>⌨️ Contrôles ZQSD</h3>
-                <div class="settings-row">
-                    <div class="settings-label">Haut (Z)</div>
-                    <div class="key-display" data-key="up">Z</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Bas (S)</div>
-                    <div class="key-display" data-key="down">S</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Gauche (Q)</div>
-                    <div class="key-display" data-key="left">Q</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Droite (D)</div>
-                    <div class="key-display" data-key="right">D</div>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Saut</div>
-                    <div class="key-display" data-key="jump">ESPACE</div>
-                </div>
+        <div class="settings-section">
+            <h3>🎮 Contrôles ZQSD</h3>
+            <div class="settings-row">
+                <div class="settings-label">Haut (Z)</div>
+                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">Z</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Bas (S)</div>
+                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">S</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Gauche (Q)</div>
+                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">Q</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Droite (D)</div>
+                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">D</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Saut</div>
+                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">ESPACE</div>
             </div>
         </div>
 
-        <div id="display-tab" class="settings-content">
-            <div class="settings-section">
-                <h3>👁️ Éléments d'Affichage</h3>
-                <div class="settings-row">
-                    <div class="settings-label">Afficher FPS</div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="show-fps" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Afficher TOP 3</div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="show-top3" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Afficher Timer</div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="show-timer">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
+        <div class="settings-section">
+            <h3>👁️ Affichage</h3>
+            <div class="settings-row">
+                <div class="settings-label">Afficher FPS</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-fps" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
-
-            <div class="settings-section">
-                <h3>🎨 Couleurs des Overlays</h3>
-                <div class="settings-row">
-                    <div class="settings-label">Couleur FPS</div>
-                    <input type="color" class="color-picker" id="fps-color" value="#00cc66">
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Couleur TOP 3</div>
-                    <input type="color" class="color-picker" id="top3-color" value="#7c62dc">
-                </div>
-                <div class="settings-row">
-                    <div class="settings-label">Couleur Timer</div>
-                    <input type="color" class="color-picker" id="timer-color" value="#7c62dc">
-                </div>
+            <div class="settings-row">
+                <div class="settings-label">Afficher TOP 3</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-top3" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Afficher Timer</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-timer">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
         </div>
 
-        <div id="themes-tab" class="settings-content">
-            <div class="settings-section">
-                <h3>🎨 Thèmes de l'Interface</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Choisissez un thème pour personnaliser l'apparence du site :</p>
-                <div class="theme-options">
-                    <div class="theme-option violet active" data-theme="violet">Violet</div>
-                    <div class="theme-option white" data-theme="white">Blanc</div>
-                    <div class="theme-option dark" data-theme="dark">Sombre</div>
-                    <div class="theme-option red" data-theme="red">Rouge</div>
-                    <div class="theme-option green" data-theme="green">Vert</div>
-                    <div class="theme-option blue" data-theme="blue">Bleu</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="game-tab" class="settings-content">
-            <div class="settings-section">
-                <h3>🎮 Options de Jeu</h3>
-                <div class="settings-row">
-                    <div class="settings-label">Contrôles ZQSD</div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="zqsd-enabled" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <button class="quick-btn give-piece-btn" onclick="unlockAllCharacters()" style="width: 100%; margin-top: 10px;">
-                    🔓 Débloquer Tous les Personnages
-                </button>
+        <div class="settings-section">
+            <h3>🎨 Thèmes</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">Choisissez un thème pour l'interface :</p>
+            <div class="theme-options">
+                <div class="theme-option violet active" data-theme="violet">Violet</div>
+                <div class="theme-option white" data-theme="white">Blanc</div>
+                <div class="theme-option dark" data-theme="dark">Sombre</div>
             </div>
         </div>
 
@@ -856,25 +673,12 @@
     </div>
 
     <script>
-        // Configuration et état
+        // Configuration
         const config = {
             showFPS: true,
             showTop3: true,
             showTimer: false,
-            zqsdEnabled: true,
-            theme: 'violet',
-            overlayColors: {
-                fps: '#00cc66',
-                top3: '#7c62dc',
-                timer: '#7c62dc'
-            },
-            customKeys: {
-                up: 'z',
-                down: 's',
-                left: 'q',
-                right: 'd',
-                jump: ' '
-            }
+            theme: 'violet'
         };
 
         // État du timer
@@ -901,11 +705,9 @@
             // Navigation
             document.getElementById('play-btn').addEventListener('click', focusGame);
             document.getElementById('settings-btn').addEventListener('click', openSettingsModal);
-            document.getElementById('help-btn').addEventListener('click', showHelp);
 
             // Contrôles de jeu
             document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-            document.getElementById('source-btn').addEventListener('click', showSourceSelector);
 
             // Menu contextuel
             document.addEventListener('contextmenu', function(e) {
@@ -916,19 +718,6 @@
             document.getElementById('close-menu-btn').addEventListener('click', toggleBottomMenu);
 
             // Paramètres
-            setupSettingsListeners();
-        }
-
-        function setupSettingsListeners() {
-            // Onglets
-            document.querySelectorAll('.settings-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.dataset.tab;
-                    switchSettingsTab(tabId);
-                });
-            });
-
-            // Toggles
             document.getElementById('show-fps').addEventListener('change', function() {
                 config.showFPS = this.checked;
                 document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
@@ -947,35 +736,6 @@
                 saveConfig();
             });
 
-            document.getElementById('zqsd-enabled').addEventListener('change', function() {
-                config.zqsdEnabled = this.checked;
-                if (config.zqsdEnabled) {
-                    setupZQSDSystem();
-                }
-                saveConfig();
-            });
-
-            // Couleurs
-            document.getElementById('fps-color').addEventListener('input', function() {
-                config.overlayColors.fps = this.value;
-                document.getElementById('fps-overlay').style.borderColor = this.value;
-                document.getElementById('fps-overlay').style.color = this.value;
-                saveConfig();
-            });
-
-            document.getElementById('top3-color').addEventListener('input', function() {
-                config.overlayColors.top3 = this.value;
-                document.getElementById('top3-overlay').style.borderColor = this.value;
-                saveConfig();
-            });
-
-            document.getElementById('timer-color').addEventListener('input', function() {
-                config.overlayColors.timer = this.value;
-                document.getElementById('speedrun-timer-overlay').style.borderColor = this.value;
-                document.getElementById('timer-display').style.color = this.value;
-                saveConfig();
-            });
-
             // Thèmes
             document.querySelectorAll('.theme-option').forEach(option => {
                 option.addEventListener('click', function() {
@@ -991,15 +751,15 @@
         }
 
         function handleZQSDKeyDown(e) {
-            if (!config.zqsdEnabled || e.target.tagName === 'INPUT') return;
+            if (e.target.tagName === 'INPUT') return;
 
             const key = e.key.toLowerCase();
             const keyMap = {
-                [config.customKeys.up]: { key: 'ArrowUp', code: 'ArrowUp' },
-                [config.customKeys.down]: { key: 'ArrowDown', code: 'ArrowDown' },
-                [config.customKeys.left]: { key: 'ArrowLeft', code: 'ArrowLeft' },
-                [config.customKeys.right]: { key: 'ArrowRight', code: 'ArrowRight' },
-                [config.customKeys.jump]: { key: ' ', code: 'Space' }
+                'z': { key: 'ArrowUp', code: 'ArrowUp' },
+                's': { key: 'ArrowDown', code: 'ArrowDown' },
+                'q': { key: 'ArrowLeft', code: 'ArrowLeft' },
+                'd': { key: 'ArrowRight', code: 'ArrowRight' },
+                ' ': { key: ' ', code: 'Space' }
             };
 
             if (keyMap[key]) {
@@ -1096,7 +856,7 @@
 
         // Gestion des thèmes
         function changeTheme(themeName) {
-            document.body.classList.remove('theme-violet', 'theme-white', 'theme-dark', 'theme-red', 'theme-green', 'theme-blue');
+            document.body.classList.remove('theme-violet', 'theme-white', 'theme-dark');
             document.body.classList.add(`theme-${themeName}`);
             config.theme = themeName;
             
@@ -1117,16 +877,6 @@
 
         function closeSettingsModal() {
             document.getElementById('settings-modal').classList.remove('active');
-        }
-
-        function switchSettingsTab(tabId) {
-            // Désactiver tous les onglets
-            document.querySelectorAll('.settings-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.settings-content').forEach(content => content.classList.remove('active'));
-            
-            // Activer l'onglet sélectionné
-            document.querySelector(`.settings-tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`${tabId}-tab`).classList.add('active');
         }
 
         function toggleBottomMenu() {
@@ -1171,30 +921,6 @@
             document.getElementById('game-iframe').focus();
         }
 
-        function showHelp() {
-            alert(`🎮 Contrôles du jeu :
-• ZQSD : Déplacement du personnage
-• Espace : Saut
-• Clic droit : Menu rapide
-• F : Plein écran
-
-⚙️ Fonctionnalités :
-• Timer speedrun avec contrôles
-• Compteur FPS en temps réel
-• TOP 3 personnalisable
-• 6 thèmes différents
-• Configuration complète des touches`);
-        }
-
-        function showSourceSelector() {
-            alert(`🔄 Sources de jeu disponibles :
-• Source actuelle : Yell0wsuit (fonctionnelle)
-• Alternative 1 : HTML5 Games
-• Alternative 2 : Cloud Gaming
-
-La source actuelle est stable et fonctionne parfaitement !`);
-        }
-
         function unlockAllCharacters() {
             showNotification('🎉 Tous les personnages sont débloqués! Profitez du jeu!', 'success');
         }
@@ -1206,18 +932,8 @@ La source actuelle est stable et fonctionne parfaitement !`);
         }
 
         function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            notification.style.borderLeftColor = type === 'success' ? '#00cc66' : type === 'error' ? '#ff4444' : '#7c62dc';
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.classList.add('show'), 10);
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            // Implémentation simple des notifications
+            alert(message);
         }
 
         // Sauvegarde/Chargement de la configuration
@@ -1246,32 +962,13 @@ La source actuelle est stable et fonctionne parfaitement !`);
             document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
             document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
             
-            // Appliquer les couleurs
-            document.getElementById('fps-overlay').style.borderColor = config.overlayColors.fps;
-            document.getElementById('fps-overlay').style.color = config.overlayColors.fps;
-            document.getElementById('top3-overlay').style.borderColor = config.overlayColors.top3;
-            document.getElementById('speedrun-timer-overlay').style.borderColor = config.overlayColors.timer;
-            document.getElementById('timer-display').style.color = config.overlayColors.timer;
-            
             // Appliquer les états des toggles
             document.getElementById('show-fps').checked = config.showFPS;
             document.getElementById('show-top3').checked = config.showTop3;
             document.getElementById('show-timer').checked = config.showTimer;
-            document.getElementById('zqsd-enabled').checked = config.zqsdEnabled;
         }
 
-        console.log(`%c
-╔════════════════════════════════════════╗
-║          SUBWAY SURFERS 2025           ║
-║           ÉDITION MYNVO v4.0           ║
-║                                        ║
-║  🎮 ZQSD + Espace pour jouer           ║
-║  ⏱️ Timer speedrun intégré            ║
-║  🎨 6 thèmes personnalisables         ║
-║  📊 FPS counter en temps réel         ║
-║  🏆 TOP 3 personnalisable             ║
-╚════════════════════════════════════════╝
-        `, 'color: #7c62dc; font-weight: bold;');
+        console.log('🎮 Subway Surfers 2025 - Version Mynvo Chargée!');
     </script>
 </body>
 </html>
