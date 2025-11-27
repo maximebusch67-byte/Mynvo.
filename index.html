@@ -59,7 +59,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -105,13 +105,10 @@
             font-weight: 600;
             transition: color 0.3s ease;
             cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 8px;
         }
 
         .nav-links a:hover {
             color: var(--primary);
-            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Game Container */
@@ -121,12 +118,10 @@
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            width: 100%;
         }
 
         .game-container {
             width: 100%;
-            max-width: 1200px;
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -144,7 +139,6 @@
             height: 80vh;
             min-height: 600px;
             background: #000;
-            width: 100%;
         }
 
         #game-iframe {
@@ -233,8 +227,8 @@
         }
 
         #speedrun-timer-overlay {
-            top: 20px;
-            right: 20px;
+            bottom: 20px;
+            left: 20px;
             background: rgba(0, 0, 0, 0.9);
             border: 2px solid var(--primary);
             border-radius: 10px;
@@ -273,6 +267,79 @@
 
         .timer-btn:hover {
             background: var(--primary-light);
+        }
+
+        /* Bottom Menu */
+        #bottom-menu {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 999999;
+            min-width: 220px;
+            backdrop-filter: blur(15px);
+            display: none;
+        }
+
+        #bottom-menu.visible {
+            display: block;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: var(--primary);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .quick-btn {
+            width: 100%;
+            padding: 8px 10px;
+            background: #111;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            transition: all 0.15s ease;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: all;
+        }
+
+        .quick-btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .give-piece-btn {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #000;
+            border: none;
+            font-weight: 700;
         }
 
         /* Settings Modal */
@@ -398,23 +465,6 @@
         .theme-option.white { background: linear-gradient(135deg, #f5f5f5, #e0e0e0); color: #333; }
         .theme-option.dark { background: linear-gradient(135deg, #333, #222); color: white; }
 
-        .key-config {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .key-input {
-            background: var(--bg-dark);
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            color: var(--text-light);
-            padding: 8px 12px;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            min-width: 60px;
-        }
-
         /* Footer */
         footer {
             text-align: center;
@@ -453,25 +503,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-card);
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 15px 20px;
-            z-index: 10000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            max-width: 300px;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -484,7 +515,7 @@
             }
 
             .game-frame {
-                height: 60vh;
+                height: 50vh;
                 min-height: 400px;
             }
 
@@ -495,10 +526,6 @@
             .modal {
                 width: 95%;
                 padding: 1rem;
-            }
-
-            #speedrun-timer-overlay {
-                top: 80px;
             }
         }
     </style>
@@ -513,7 +540,6 @@
                 <div class="nav-links">
                     <a id="play-btn">🎮 Jouer</a>
                     <a id="settings-btn">⚙️ Paramètres</a>
-                    <a id="fullscreen-btn">⤢ Plein écran</a>
                 </div>
             </div>
         </header>
@@ -525,8 +551,12 @@
                         <div class="spinner"></div>
                         <p>Chargement de Subway Surfers...</p>
                     </div>
+                    
+                    <div class="game-controls">
+                        <button class="control-btn" id="fullscreen-btn">⤢ Plein écran</button>
+                    </div>
 
-                    <!-- GAME LINK CORRECTED -->
+                    <!-- LIEN DU JEU CORRIGÉ -->
                     <iframe id="game-iframe" 
                             src="https://poki.com/fr/g/subway-surfers"
                             allowfullscreen>
@@ -541,30 +571,44 @@
     </div>
 
     <!-- Overlays -->
-    <div id="fps-overlay" class="overlay">🎮 FPS: <span id="fps-value">60</span></div>
+    <div id="fps-overlay" class="overlay">FPS: <span id="fps-value">60</span></div>
 
     <div id="top3-overlay" class="overlay">
-        <div class="title">🏆 TOP 3</div>
-        <div class="player first">🥇 Mynvo – 13:27</div>
-        <div class="player">🥈 Le_A – 11:51</div>
-        <div class="player">🥉 Pro – 10:23</div>
+        <div class="title">TOP 3</div>
+        <div class="player first">Mynvo – 13:27</div>
+        <div class="player">Le_A – 11:51</div>
+        <div class="player">Pro – 10:23</div>
     </div>
 
     <div id="speedrun-timer-overlay" class="overlay">
         <div id="timer-display">00:00.00</div>
         <div class="timer-controls">
-            <button class="timer-btn" onclick="startTimer()">▶️</button>
-            <button class="timer-btn" onclick="pauseTimer()">⏸️</button>
-            <button class="timer-btn" onclick="resetTimer()">⏹️</button>
+            <button class="timer-btn" onclick="startTimer()">Start</button>
+            <button class="timer-btn" onclick="pauseTimer()">Pause</button>
+            <button class="timer-btn" onclick="resetTimer()">Reset</button>
         </div>
+    </div>
+
+    <!-- Bottom Menu -->
+    <div id="bottom-menu">
+        <div class="menu-header">
+            <div class="menu-title">Menu Rapide</div>
+            <button class="close-btn" id="close-menu-btn">✖</button>
+        </div>
+        <button class="quick-btn" onclick="openSettingsModal()">Paramètres complets</button>
+        <button class="quick-btn" onclick="toggleTimer()">Timer Speedrun</button>
+        <button class="quick-btn" onclick="toggleFPS()">Afficher/Masquer FPS</button>
+        <button class="quick-btn" onclick="toggleFullscreen()">Plein écran</button>
+        <button class="quick-btn" onclick="toggleTop3()">Afficher/Masquer TOP 3</button>
+        <button class="quick-btn give-piece-btn" onclick="unlockAllCharacters()">Débloquer Tout</button>
     </div>
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
-        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">⚙️ Paramètres</h2>
+        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">Paramètres</h2>
         
         <div class="settings-section">
-            <h3>🎮 Contrôles ZQSD</h3>
+            <h3>Contrôles ZQSD</h3>
             <div class="settings-row">
                 <div class="settings-label">Haut (Z)</div>
                 <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">Z</div>
@@ -588,7 +632,7 @@
         </div>
 
         <div class="settings-section">
-            <h3>👁️ Affichage</h3>
+            <h3>Affichage</h3>
             <div class="settings-row">
                 <div class="settings-label">Afficher FPS</div>
                 <label class="toggle-switch">
@@ -613,7 +657,7 @@
         </div>
 
         <div class="settings-section">
-            <h3>🎨 Thèmes</h3>
+            <h3>Thèmes</h3>
             <p style="color: var(--text-muted); margin-bottom: 15px;">Choisissez un thème pour l'interface :</p>
             <div class="theme-options">
                 <div class="theme-option violet active" data-theme="violet">Violet</div>
@@ -625,11 +669,6 @@
         <div style="text-align: center; margin-top: 20px;">
             <button class="control-btn" onclick="closeSettingsModal()" style="padding: 10px 20px;">Fermer</button>
         </div>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <div id="notification-message"></div>
     </div>
 
     <script>
@@ -665,7 +704,17 @@
             // Navigation
             document.getElementById('play-btn').addEventListener('click', focusGame);
             document.getElementById('settings-btn').addEventListener('click', openSettingsModal);
+
+            // Contrôles de jeu
             document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+
+            // Menu contextuel
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                toggleBottomMenu();
+            });
+
+            document.getElementById('close-menu-btn').addEventListener('click', toggleBottomMenu);
 
             // Paramètres
             document.getElementById('show-fps').addEventListener('change', function() {
@@ -693,9 +742,6 @@
                     changeTheme(theme);
                 });
             });
-
-            // Plein écran
-            document.addEventListener('fullscreenchange', handleFullscreenChange);
         }
 
         // Système ZQSD
@@ -832,35 +878,41 @@
             document.getElementById('settings-modal').classList.remove('active');
         }
 
+        function toggleBottomMenu() {
+            document.getElementById('bottom-menu').classList.toggle('visible');
+        }
+
         function toggleFullscreen() {
             const gameFrame = document.querySelector('.game-frame');
             
             if (!document.fullscreenElement) {
                 if (gameFrame.requestFullscreen) {
                     gameFrame.requestFullscreen();
-                } else if (gameFrame.webkitRequestFullscreen) {
-                    gameFrame.webkitRequestFullscreen();
-                } else if (gameFrame.msRequestFullscreen) {
-                    gameFrame.msRequestFullscreen();
                 }
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
+                document.exitFullscreen();
             }
         }
 
-        function handleFullscreenChange() {
-            const fullscreenBtn = document.getElementById('fullscreen-btn');
-            if (document.fullscreenElement) {
-                fullscreenBtn.textContent = 'Quitter Plein écran';
-            } else {
-                fullscreenBtn.textContent = '⤢ Plein écran';
-            }
+        function toggleTimer() {
+            config.showTimer = !config.showTimer;
+            document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+            document.getElementById('show-timer').checked = config.showTimer;
+            saveConfig();
+        }
+
+        function toggleFPS() {
+            config.showFPS = !config.showFPS;
+            document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+            document.getElementById('show-fps').checked = config.showFPS;
+            saveConfig();
+        }
+
+        function toggleTop3() {
+            config.showTop3 = !config.showTop3;
+            document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+            document.getElementById('show-top3').checked = config.showTop3;
+            saveConfig();
         }
 
         function focusGame() {
@@ -869,7 +921,7 @@
         }
 
         function unlockAllCharacters() {
-            showNotification('🎉 Tous les personnages sont débloqués! Profitez du jeu!', 'success');
+            showNotification('Tous les personnages sont débloqués! Profitez du jeu!', 'success');
         }
 
         function hideLoading() {
@@ -879,25 +931,8 @@
         }
 
         function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            const messageEl = document.getElementById('notification-message');
-            
-            messageEl.textContent = message;
-            
-            // Définir la couleur selon le type
-            if (type === 'success') {
-                notification.style.borderColor = 'var(--success)';
-            } else if (type === 'error') {
-                notification.style.borderColor = 'var(--danger)';
-            } else {
-                notification.style.borderColor = 'var(--primary)';
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            // Implémentation simple des notifications
+            alert(message);
         }
 
         // Sauvegarde/Chargement de la configuration
