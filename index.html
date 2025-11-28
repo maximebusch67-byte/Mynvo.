@@ -352,57 +352,98 @@
             letter-spacing: 1px;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 14px;
-            opacity: 0.8;
-            color: var(--text-muted);
-            border-top: 1px solid var(--primary-transparent);
-        }
-
-        /* Loading */
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 2rem;
+        /* Stats Panel */
+        .stats-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--stats-color);
             border-radius: 10px;
+            padding: 15px;
+            z-index: 999;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-panel h3 {
+            color: var(--stats-color);
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        /* Bottom Menu */
+        #bottom-menu {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
             border: 2px solid var(--primary);
-            z-index: 10;
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 999999;
+            min-width: 220px;
+            backdrop-filter: blur(15px);
+            display: none;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #ffffff33;
-            border-top: 5px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+        #bottom-menu.visible {
+            display: block;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
-        /* Discord Link */
-        .discord-link {
-            color: var(--text-light);
-            text-decoration: none;
+        .menu-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: var(--primary);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .quick-btn {
+            width: 100%;
+            padding: 8px 10px;
+            background: #111;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
             font-weight: 600;
-            transition: color 0.3s ease;
+            font-size: 11px;
+            transition: all 0.15s ease;
+            margin-top: 6px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            pointer-events: all;
         }
 
-        .discord-link:hover {
-            color: var(--primary);
+        .quick-btn:hover {
+            background: var(--primary);
+            color: #000;
         }
 
         /* Settings Modal */
@@ -536,6 +577,114 @@
         .theme-option.midnight { background: linear-gradient(135deg, #2d3436, #636e72); color: white; }
         .theme-option.ocean { background: linear-gradient(135deg, #0984e3, #74b9ff); color: white; }
 
+        .key-config {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .key-input {
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            color: var(--text-light);
+            padding: 8px 12px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .color-config {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .color-input {
+            width: 60px;
+            height: 30px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 14px;
+            opacity: 0.8;
+            color: var(--text-muted);
+            border-top: 1px solid var(--primary-transparent);
+        }
+
+        /* Loading */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ffffff33;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Discord Link */
+        .discord-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .discord-link:hover {
+            color: var(--primary);
+        }
+
+        /* Resolution Selector */
+        .resolution-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .resolution-option {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        .resolution-option.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            background: var(--primary-transparent);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -560,6 +709,10 @@
                 width: 95%;
                 padding: 1rem;
             }
+
+            .stats-panel {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -572,6 +725,7 @@
                 </div>
                 <div class="nav-links">
                     <a id="play-btn">🎮 Jouer</a>
+                    <a id="stats-btn">📊 Statistiques</a>
                     <a id="settings-btn">⚙️ Paramètres</a>
                     <a href="https://discord.gg/KHfb8N3ekD" class="discord-link" target="_blank">💬 Discord</a>
                 </div>
@@ -586,7 +740,11 @@
                         <p>Chargement de Subway Surfers...</p>
                     </div>
                     
-                    <!-- 3KH0 - Clone de yell0wsuit qui AUTORISE l'iframe -->
+                    <div class="game-controls">
+                        <button class="control-btn" id="fullscreen-btn">⤢ Plein écran</button>
+                    </div>
+
+                   <!-- 3KH0 - Clone de yell0wsuit qui AUTORISE l'iframe -->
                     <iframe id="game-iframe" 
                             src="https://3kh0.github.io/projects/subway-surfers/index.html"
                             allowfullscreen
@@ -616,10 +774,135 @@
         <div id="timer-display">00:00.00</div>
     </div>
 
+    <!-- Stats Panel -->
+    <div class="stats-panel" id="stats-panel">
+        <h3>📊 Stats</h3>
+        <div class="stats-item">
+            <span>Score:</span>
+            <span id="max-score">0</span>
+        </div>
+        <div class="stats-item">
+            <span>Distance:</span>
+            <span id="total-distance">0m</span>
+        </div>
+        <div class="stats-item">
+            <span>Pièces:</span>
+            <span id="total-coins">0</span>
+        </div>
+        <div class="stats-item">
+            <span>Parties:</span>
+            <span id="games-played">0</span>
+        </div>
+    </div>
+
+    <!-- Bottom Menu -->
+    <div id="bottom-menu">
+        <div class="menu-header">
+            <div class="menu-title">⚙️ Menu Rapide</div>
+            <button class="close-btn" id="close-menu-btn">✖</button>
+        </div>
+        <button class="quick-btn" onclick="openSettingsModal()">🎮 Paramètres</button>
+        <button class="quick-btn" onclick="toggleTimer()">⏱️ Timer</button>
+        <button class="quick-btn" onclick="toggleFPS()">📊 FPS</button>
+        <button class="quick-btn" onclick="toggleFullscreen()">⤢ Plein écran</button>
+        <button class="quick-btn" onclick="toggleTop3()">🏆 TOP 3</button>
+        <button class="quick-btn" onclick="toggleStats()">📈 Stats</button>
+    </div>
+
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
         <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">⚙️ Paramètres</h2>
         
+        <div class="settings-section">
+            <h3>🎮 Contrôles Personnalisables</h3>
+            <div class="key-config">
+                <div class="settings-row">
+                    <div class="settings-label">Haut</div>
+                    <input type="text" class="key-input" id="key-up" maxlength="1" value="Z" readonly>
+                    <button class="control-btn" onclick="changeKey('up')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Bas</div>
+                    <input type="text" class="key-input" id="key-down" maxlength="1" value="S" readonly>
+                    <button class="control-btn" onclick="changeKey('down')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Gauche</div>
+                    <input type="text" class="key-input" id="key-left" maxlength="1" value="Q" readonly>
+                    <button class="control-btn" onclick="changeKey('left')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Droite</div>
+                    <input type="text" class="key-input" id="key-right" maxlength="1" value="D" readonly>
+                    <button class="control-btn" onclick="changeKey('right')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Saut</div>
+                    <input type="text" class="key-input" id="key-jump" maxlength="1" value=" " readonly>
+                    <button class="control-btn" onclick="changeKey('jump')">Modifier</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>⏱️ Contrôles Timer</h3>
+            <div class="key-config">
+                <div class="settings-row">
+                    <div class="settings-label">Start/Pause</div>
+                    <input type="text" class="key-input" id="key-timer-start" maxlength="1" value="T" readonly>
+                    <button class="control-btn" onclick="changeKey('timer-start')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Reset</div>
+                    <input type="text" class="key-input" id="key-timer-reset" maxlength="1" value="R" readonly>
+                    <button class="control-btn" onclick="changeKey('timer-reset')">Modifier</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>🎨 Couleurs</h3>
+            <div class="color-config">
+                <div class="settings-row">
+                    <div class="settings-label">Couleur FPS</div>
+                    <input type="color" class="color-input" id="color-fps" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur Timer</div>
+                    <input type="color" class="color-input" id="color-timer" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur TOP 3</div>
+                    <input type="color" class="color-input" id="color-top3" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur Stats</div>
+                    <input type="color" class="color-input" id="color-stats" value="#7c62dc">
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>🖥️ Résolution</h3>
+            <div class="resolution-options">
+                <div class="resolution-option" data-resolution="phone" onclick="changeResolution('phone')">
+                    📱 Téléphone
+                </div>
+                <div class="resolution-option" data-resolution="720p" onclick="changeResolution('720p')">
+                    🖥️ 720p
+                </div>
+                <div class="resolution-option" data-resolution="1080p" onclick="changeResolution('1080p')">
+                    🖥️ 1080p
+                </div>
+                <div class="resolution-option" data-resolution="1440p" onclick="changeResolution('1440p')">
+                    🖥️ 1440p
+                </div>
+                <div class="resolution-option active" data-resolution="auto" onclick="changeResolution('auto')">
+                    🔄 Auto
+                </div>
+            </div>
+        </div>
+
         <div class="settings-section">
             <h3>👁️ Affichage</h3>
             <div class="settings-row">
@@ -640,6 +923,27 @@
                 <div class="settings-label">Afficher Timer</div>
                 <label class="toggle-switch">
                     <input type="checkbox" id="show-timer">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Afficher Stats</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-stats" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Plein écran par défaut</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="fullscreen-default" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Overlays en plein écran</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-overlays-fullscreen" checked>
                     <span class="toggle-slider"></span>
                 </label>
             </div>
@@ -664,7 +968,41 @@
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
+            <button class="control-btn" onclick="resetControls()" style="margin-right: 10px;">🔄 Réinitialiser</button>
             <button class="control-btn" onclick="closeSettingsModal()" style="padding: 10px 20px;">❌ Fermer</button>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div id="stats-modal" class="modal">
+        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">📊 Statistiques Détaillées</h2>
+        
+        <div class="settings-section">
+            <h3>📈 Performances</h3>
+            <div class="stats-item">
+                <span>Score Maximum:</span>
+                <span id="detailed-max-score">0</span>
+            </div>
+            <div class="stats-item">
+                <span>Distance Totale:</span>
+                <span id="detailed-total-distance">0m</span>
+            </div>
+            <div class="stats-item">
+                <span>Pièces Collectées:</span>
+                <span id="detailed-total-coins">0</span>
+            </div>
+            <div class="stats-item">
+                <span>Parties Jouées:</span>
+                <span id="detailed-games-played">0</span>
+            </div>
+            <div class="stats-item">
+                <span>Temps de Jeu Total:</span>
+                <span id="detailed-total-playtime">00:00:00</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="control-btn" onclick="closeStatsModal()" style="padding: 10px 20px;">Fermer</button>
         </div>
     </div>
 
@@ -674,7 +1012,33 @@
             showFPS: true,
             showTop3: true,
             showTimer: false,
-            theme: 'violet'
+            showStats: true,
+            fullscreenDefault: true,
+            showOverlaysFullscreen: true,
+            resolution: 'auto',
+            theme: 'violet',
+            colors: {
+                fps: '#7c62dc',
+                timer: '#7c62dc',
+                top3: '#7c62dc',
+                stats: '#7c62dc'
+            },
+            controls: {
+                up: 'Z',
+                down: 'S',
+                left: 'Q',
+                right: 'D',
+                jump: ' ',
+                timerStart: 'T',
+                timerReset: 'R'
+            },
+            stats: {
+                maxScore: 12500,
+                totalDistance: 8450,
+                totalCoins: 320,
+                gamesPlayed: 15,
+                totalPlaytime: 4520
+            }
         };
 
         // État du timer
@@ -682,6 +1046,7 @@
         let timerStartTime = 0;
         let timerCurrentTime = 0;
         let timerInterval = null;
+        let changingKey = null;
 
         // FPS Counter
         let frameCount = 0;
@@ -695,22 +1060,38 @@
             startFPSCounter();
             hideLoading();
             
-            // Plein écran automatique
-            setTimeout(() => {
-                toggleFullscreen();
-            }, 500);
+            // Plein écran par défaut si activé
+            if (config.fullscreenDefault) {
+                setTimeout(() => {
+                    toggleFullscreen();
+                }, 1000);
+            }
         });
 
         function initializeApp() {
             loadConfig();
             applyConfig();
             setupGameControls();
+            setupTimerControls();
+            setupFullscreenOverlays();
         }
 
         function setupEventListeners() {
             // Navigation
             document.getElementById('play-btn').addEventListener('click', focusGame);
             document.getElementById('settings-btn').addEventListener('click', openSettingsModal);
+            document.getElementById('stats-btn').addEventListener('click', openStatsModal);
+
+            // Contrôles de jeu
+            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+
+            // Menu contextuel
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                toggleBottomMenu();
+            });
+
+            document.getElementById('close-menu-btn').addEventListener('click', toggleBottomMenu);
 
             // Paramètres
             document.getElementById('show-fps').addEventListener('change', function() {
@@ -731,6 +1112,47 @@
                 saveConfig();
             });
 
+            document.getElementById('show-stats').addEventListener('change', function() {
+                config.showStats = this.checked;
+                document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+                saveConfig();
+            });
+
+            document.getElementById('fullscreen-default').addEventListener('change', function() {
+                config.fullscreenDefault = this.checked;
+                saveConfig();
+            });
+
+            document.getElementById('show-overlays-fullscreen').addEventListener('change', function() {
+                config.showOverlaysFullscreen = this.checked;
+                saveConfig();
+            });
+
+            // Couleurs
+            document.getElementById('color-fps').addEventListener('input', function() {
+                config.colors.fps = this.value;
+                updateColors();
+                saveConfig();
+            });
+
+            document.getElementById('color-timer').addEventListener('input', function() {
+                config.colors.timer = this.value;
+                updateColors();
+                saveConfig();
+            });
+
+            document.getElementById('color-top3').addEventListener('input', function() {
+                config.colors.top3 = this.value;
+                updateColors();
+                saveConfig();
+            });
+
+            document.getElementById('color-stats').addEventListener('input', function() {
+                config.colors.stats = this.value;
+                updateColors();
+                saveConfig();
+            });
+
             // Thèmes
             document.querySelectorAll('.theme-option').forEach(option => {
                 option.addEventListener('click', function() {
@@ -739,28 +1161,205 @@
                 });
             });
 
-            // Contrôles de jeu
-            document.addEventListener('keydown', handleGameKeyDown);
+            // Écouteur global pour la modification des touches
+            document.addEventListener('keydown', handleKeyChange);
+
+            // Plein écran
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
         }
 
-        // Contrôles de jeu fonctionnels
+        // Système de contrôles de jeu FONCTIONNEL
         function setupGameControls() {
-            console.log('Contrôles de jeu activés');
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT' || changingKey) return;
+
+                const key = e.key.toUpperCase();
+                const keyMap = {
+                    [config.controls.up]: { type: 'keydown', key: 'ArrowUp', code: 'ArrowUp' },
+                    [config.controls.down]: { type: 'keydown', key: 'ArrowDown', code: 'ArrowDown' },
+                    [config.controls.left]: { type: 'keydown', key: 'ArrowLeft', code: 'ArrowLeft' },
+                    [config.controls.right]: { type: 'keydown', key: 'ArrowRight', code: 'ArrowRight' },
+                    [config.controls.jump]: { type: 'keydown', key: ' ', code: 'Space' }
+                };
+
+                if (keyMap[key]) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Injection directe des événements dans l'iframe
+                    const iframe = document.getElementById('game-iframe');
+                    try {
+                        const iframeWindow = iframe.contentWindow;
+                        
+                        // Créer et dispatcher l'événement keydown
+                        const keyDownEvent = new KeyboardEvent('keydown', {
+                            key: keyMap[key].key,
+                            code: keyMap[key].code,
+                            keyCode: getKeyCode(keyMap[key].key),
+                            which: getKeyCode(keyMap[key].key),
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        
+                        iframeWindow.dispatchEvent(keyDownEvent);
+                        
+                        // Forcer le focus sur l'iframe
+                        iframeWindow.focus();
+                        
+                    } catch (err) {
+                        console.log('Injection clavier:', keyMap[key].key);
+                    }
+                }
+            });
+
+            // Gérer aussi le keyup pour éviter les touches bloquées
+            document.addEventListener('keyup', function(e) {
+                if (e.target.tagName === 'INPUT' || changingKey) return;
+
+                const key = e.key.toUpperCase();
+                const keyMap = {
+                    [config.controls.up]: { type: 'keyup', key: 'ArrowUp', code: 'ArrowUp' },
+                    [config.controls.down]: { type: 'keyup', key: 'ArrowDown', code: 'ArrowDown' },
+                    [config.controls.left]: { type: 'keyup', key: 'ArrowLeft', code: 'ArrowLeft' },
+                    [config.controls.right]: { type: 'keyup', key: 'ArrowRight', code: 'ArrowRight' },
+                    [config.controls.jump]: { type: 'keyup', key: ' ', code: 'Space' }
+                };
+
+                if (keyMap[key]) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const iframe = document.getElementById('game-iframe');
+                    try {
+                        const iframeWindow = iframe.contentWindow;
+                        
+                        const keyUpEvent = new KeyboardEvent('keyup', {
+                            key: keyMap[key].key,
+                            code: keyMap[key].code,
+                            keyCode: getKeyCode(keyMap[key].key),
+                            which: getKeyCode(keyMap[key].key),
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        
+                        iframeWindow.dispatchEvent(keyUpEvent);
+                        
+                    } catch (err) {
+                        console.log('Keyup injection:', keyMap[key].key);
+                    }
+                }
+            });
         }
 
-        function handleGameKeyDown(e) {
-            // Transmettre les touches au jeu
-            const iframe = document.getElementById('game-iframe');
-            try {
-                iframe.contentWindow.postMessage({
-                    type: 'keydown',
-                    key: e.key,
-                    code: e.code
-                }, '*');
-            } catch (err) {
-                // Fallback pour les navigateurs qui bloquent postMessage
-                console.log('Key pressed:', e.key);
+        // Helper pour obtenir les keyCodes
+        function getKeyCode(key) {
+            const keyCodes = {
+                'ArrowUp': 38,
+                'ArrowDown': 40,
+                'ArrowLeft': 37,
+                'ArrowRight': 39,
+                ' ': 32
+            };
+            return keyCodes[key] || key.charCodeAt(0);
+        }
+
+        function setupTimerControls() {
+            document.addEventListener('keydown', handleTimerKeyDown);
+        }
+
+        function setupFullscreenOverlays() {
+            document.addEventListener('fullscreenchange', function() {
+                if (config.showOverlaysFullscreen) {
+                    if (document.fullscreenElement) {
+                        document.querySelectorAll('.overlay').forEach(overlay => {
+                            overlay.style.display = 'block';
+                        });
+                        document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+                    }
+                }
+            });
+        }
+
+        function handleTimerKeyDown(e) {
+            if (e.target.tagName === 'INPUT' || changingKey) return;
+
+            const key = e.key.toUpperCase();
+            
+            if (key === config.controls.timerStart) {
+                if (timerState === 'stopped' || timerState === 'paused') {
+                    startTimer();
+                } else if (timerState === 'running') {
+                    pauseTimer();
+                }
+            } else if (key === config.controls.timerReset) {
+                resetTimer();
             }
+        }
+
+        // Modification des touches
+        function changeKey(action) {
+            changingKey = action;
+            const input = document.getElementById(`key-${action}`);
+            input.style.borderColor = 'var(--warning)';
+            input.placeholder = 'Appuyez sur une touche...';
+            input.value = '';
+        }
+
+        function handleKeyChange(e) {
+            if (changingKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const key = e.key.toUpperCase();
+                
+                // Vérifier si la touche est déjà utilisée
+                for (const control in config.controls) {
+                    if (config.controls[control] === key && control !== changingKey) {
+                        resetKeyInput();
+                        return;
+                    }
+                }
+                
+                document.getElementById(`key-${changingKey}`).value = key;
+                config.controls[changingKey] = key;
+                
+                document.getElementById(`key-${changingKey}`).style.borderColor = 'var(--primary)';
+                document.getElementById(`key-${changingKey}`).placeholder = '';
+                
+                saveConfig();
+                changingKey = null;
+            }
+        }
+
+        function resetKeyInput() {
+            if (changingKey) {
+                document.getElementById(`key-${changingKey}`).value = config.controls[changingKey];
+                document.getElementById(`key-${changingKey}`).style.borderColor = 'var(--primary)';
+                document.getElementById(`key-${changingKey}`).placeholder = '';
+                changingKey = null;
+            }
+        }
+
+        function resetControls() {
+            config.controls = {
+                up: 'Z',
+                down: 'S',
+                left: 'Q',
+                right: 'D',
+                jump: ' ',
+                timerStart: 'T',
+                timerReset: 'R'
+            };
+            
+            document.getElementById('key-up').value = 'Z';
+            document.getElementById('key-down').value = 'S';
+            document.getElementById('key-left').value = 'Q';
+            document.getElementById('key-right').value = 'D';
+            document.getElementById('key-jump').value = ' ';
+            document.getElementById('key-timer-start').value = 'T';
+            document.getElementById('key-timer-reset').value = 'R';
+            
+            saveConfig();
         }
 
         // Timer functions
@@ -812,6 +1411,19 @@
                     fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
                     document.getElementById('fps-value').textContent = fps;
                     
+                    // Changer la couleur selon les FPS
+                    const fpsEl = document.getElementById('fps-overlay');
+                    if (fps >= 55) {
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
+                    } else if (fps >= 30) {
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
+                    } else {
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
+                    }
+                    
                     frameCount = 0;
                     lastTime = currentTime;
                 }
@@ -837,6 +1449,71 @@
             saveConfig();
         }
 
+        // Gestion de la résolution
+        function changeResolution(resolution) {
+            config.resolution = resolution;
+            
+            // Mettre à jour les sélections de résolution
+            document.querySelectorAll('.resolution-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.resolution-option[data-resolution="${resolution}"]`).classList.add('active');
+            
+            // Appliquer la résolution
+            const gameFrame = document.querySelector('.game-frame');
+            
+            switch(resolution) {
+                case 'phone':
+                    gameFrame.style.height = '50vh';
+                    gameFrame.style.minHeight = '300px';
+                    break;
+                case '720p':
+                    gameFrame.style.height = '60vh';
+                    gameFrame.style.minHeight = '400px';
+                    break;
+                case '1080p':
+                    gameFrame.style.height = '70vh';
+                    gameFrame.style.minHeight = '500px';
+                    break;
+                case '1440p':
+                    gameFrame.style.height = '80vh';
+                    gameFrame.style.minHeight = '600px';
+                    break;
+                case 'auto':
+                default:
+                    gameFrame.style.height = '80vh';
+                    gameFrame.style.minHeight = '600px';
+                    break;
+            }
+            
+            saveConfig();
+        }
+
+        // Mise à jour des couleurs
+        function updateColors() {
+            document.documentElement.style.setProperty('--fps-color', config.colors.fps);
+            document.documentElement.style.setProperty('--timer-color', config.colors.timer);
+            document.documentElement.style.setProperty('--top3-color', config.colors.top3);
+            document.documentElement.style.setProperty('--stats-color', config.colors.stats);
+            
+            // Appliquer les couleurs aux éléments
+            document.getElementById('fps-overlay').style.borderColor = config.colors.fps;
+            document.getElementById('fps-overlay').style.color = config.colors.fps;
+            
+            document.getElementById('speedrun-timer-overlay').style.borderColor = config.colors.timer;
+            document.getElementById('timer-display').style.color = config.colors.timer;
+            
+            document.getElementById('top3-overlay').style.borderColor = config.colors.top3;
+            document.getElementById('top3-overlay').style.color = config.colors.top3;
+            document.getElementById('top3-overlay').querySelector('.title').style.color = config.colors.top3;
+            document.getElementById('top3-overlay').querySelectorAll('.player').forEach(player => {
+                player.style.color = config.colors.top3;
+            });
+            
+            document.getElementById('stats-panel').style.borderColor = config.colors.stats;
+            document.getElementById('stats-panel').querySelector('h3').style.color = config.colors.stats;
+        }
+
         // Fonctions d'interface
         function openSettingsModal() {
             document.getElementById('settings-modal').classList.add('active');
@@ -844,6 +1521,19 @@
 
         function closeSettingsModal() {
             document.getElementById('settings-modal').classList.remove('active');
+            resetKeyInput();
+        }
+
+        function openStatsModal() {
+            document.getElementById('stats-modal').classList.add('active');
+        }
+
+        function closeStatsModal() {
+            document.getElementById('stats-modal').classList.remove('active');
+        }
+
+        function toggleBottomMenu() {
+            document.getElementById('bottom-menu').classList.toggle('visible');
         }
 
         function toggleFullscreen() {
@@ -857,7 +1547,66 @@
                 } else if (gameFrame.msRequestFullscreen) {
                     gameFrame.msRequestFullscreen();
                 }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
+        }
+
+        function handleFullscreenChange() {
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (document.fullscreenElement) {
+                fullscreenBtn.textContent = 'Quitter Plein écran';
+                
+                // Forcer l'affichage des overlays si l'option est activée
+                if (config.showOverlaysFullscreen) {
+                    document.querySelectorAll('.overlay').forEach(overlay => {
+                        overlay.style.display = 'block';
+                    });
+                    document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+                }
+            } else {
+                fullscreenBtn.textContent = '⤢ Plein écran';
+                
+                // Restaurer l'affichage normal des overlays
+                document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+                document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+                document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+                document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+            }
+        }
+
+        function toggleTimer() {
+            config.showTimer = !config.showTimer;
+            document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+            document.getElementById('show-timer').checked = config.showTimer;
+            saveConfig();
+        }
+
+        function toggleFPS() {
+            config.showFPS = !config.showFPS;
+            document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+            document.getElementById('show-fps').checked = config.showFPS;
+            saveConfig();
+        }
+
+        function toggleTop3() {
+            config.showTop3 = !config.showTop3;
+            document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+            document.getElementById('show-top3').checked = config.showTop3;
+            saveConfig();
+        }
+
+        function toggleStats() {
+            config.showStats = !config.showStats;
+            document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+            document.getElementById('show-stats').checked = config.showStats;
+            saveConfig();
         }
 
         function focusGame() {
@@ -896,14 +1645,60 @@
             document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
             document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
             document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+            document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
             
             // Appliquer les états des toggles
             document.getElementById('show-fps').checked = config.showFPS;
             document.getElementById('show-top3').checked = config.showTop3;
             document.getElementById('show-timer').checked = config.showTimer;
+            document.getElementById('show-stats').checked = config.showStats;
+            document.getElementById('fullscreen-default').checked = config.fullscreenDefault;
+            document.getElementById('show-overlays-fullscreen').checked = config.showOverlaysFullscreen;
+            
+            // Appliquer les contrôles personnalisés
+            document.getElementById('key-up').value = config.controls.up;
+            document.getElementById('key-down').value = config.controls.down;
+            document.getElementById('key-left').value = config.controls.left;
+            document.getElementById('key-right').value = config.controls.right;
+            document.getElementById('key-jump').value = config.controls.jump;
+            document.getElementById('key-timer-start').value = config.controls.timerStart;
+            document.getElementById('key-timer-reset').value = config.controls.timerReset;
+            
+            // Appliquer les couleurs
+            document.getElementById('color-fps').value = config.colors.fps;
+            document.getElementById('color-timer').value = config.colors.timer;
+            document.getElementById('color-top3').value = config.colors.top3;
+            document.getElementById('color-stats').value = config.colors.stats;
+            updateColors();
+            
+            // Appliquer la résolution
+            document.querySelectorAll('.resolution-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.resolution-option[data-resolution="${config.resolution}"]`).classList.add('active');
+            changeResolution(config.resolution);
+            
+            // Mettre à jour les stats
+            document.getElementById('max-score').textContent = config.stats.maxScore.toLocaleString();
+            document.getElementById('total-distance').textContent = config.stats.totalDistance.toLocaleString() + 'm';
+            document.getElementById('total-coins').textContent = config.stats.totalCoins.toLocaleString();
+            document.getElementById('games-played').textContent = config.stats.gamesPlayed;
+            
+            document.getElementById('detailed-max-score').textContent = config.stats.maxScore.toLocaleString();
+            document.getElementById('detailed-total-distance').textContent = config.stats.totalDistance.toLocaleString() + 'm';
+            document.getElementById('detailed-total-coins').textContent = config.stats.totalCoins.toLocaleString();
+            document.getElementById('detailed-games-played').textContent = config.stats.gamesPlayed;
+            
+            // Calculer le temps de jeu formaté
+            const hours = Math.floor(config.stats.totalPlaytime / 3600);
+            const minutes = Math.floor((config.stats.totalPlaytime % 3600) / 60);
+            const seconds = config.stats.totalPlaytime % 60;
+            document.getElementById('detailed-total-playtime').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
         console.log('🎮 Subway Surfers 2025 - Version Mynvo Chargée!');
+        console.log('✅ Contrôles personnalisés activés - Les touches devraient maintenant fonctionner');
     </script>
 </body>
 </html>
