@@ -2047,6 +2047,78 @@ function resetControls() {
 // Synchroniser au chargement
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(syncUIWithKeyMapping, 100);
-});
+});<script>
+// Écraser la fonction setupGameControls existante
+setupGameControls = function() {
+    console.log("🎮 Contrôles améliorés chargés!");
+    
+    const getKeyMapping = () => ({
+        up: config.controls.up,
+        down: config.controls.down,
+        left: config.controls.left,
+        right: config.controls.right,
+        jump: config.controls.jump
+    });
+    
+    const arrowKeyCodes = { up: 38, down: 40, left: 37, right: 39, jump: 32 };
+    
+    const createKeyEvent = (type, keyCode) => {
+        const keyMap = { 38: 'ArrowUp', 40: 'ArrowDown', 37: 'ArrowLeft', 39: 'ArrowRight', 32: ' ' };
+        const codeMap = { 38: 'ArrowUp', 40: 'ArrowDown', 37: 'ArrowLeft', 39: 'ArrowRight', 32: 'Space' };
+        
+        const event = new KeyboardEvent(type, {
+            key: keyMap[keyCode],
+            code: codeMap[keyCode],
+            keyCode: keyCode,
+            which: keyCode,
+            bubbles: true,
+            cancelable: true
+        });
+        
+        Object.defineProperty(event, 'keyCode', { value: keyCode });
+        Object.defineProperty(event, 'which', { value: keyCode });
+        return event;
+    };
+    
+    const handleKey = (e) => {
+        if (e.target.tagName === 'INPUT' || changingKey) return;
+        
+        const key = e.key.toUpperCase();
+        const mapping = getKeyMapping();
+        let code = null;
+        
+        for (const [action, mapKey] of Object.entries(mapping)) {
+            if (mapKey.toUpperCase() === key) {
+                code = arrowKeyCodes[action];
+                break;
+            }
+        }
+        
+        if (code) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const newEvent = createKeyEvent(e.type, code);
+            document.dispatchEvent(newEvent);
+            window.dispatchEvent(newEvent);
+            
+            const iframe = document.getElementById('game-iframe');
+            if (iframe) {
+                try {
+                    iframe.contentWindow.dispatchEvent(newEvent);
+                    iframe.contentDocument.dispatchEvent(newEvent);
+                } catch(err) {}
+            }
+        }
+    };
+    
+    ['keydown', 'keyup'].forEach(type => {
+        document.addEventListener(type, handleKey, { capture: true, passive: false });
+    });
+};
+
+// Réactiver immédiatement
+setupGameControls();
+</script>
 </body>
 </html>
