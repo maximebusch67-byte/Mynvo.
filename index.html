@@ -17,28 +17,131 @@
             --success: #00cc66;
             --danger: #ff4444;
             --warning: #ffaa00;
+            --timer-color: #7c62dc;
+            --stats-color: #7c62dc;
+            --top3-color: #7c62dc;
+            --fps-color: #7c62dc;
         }
 
-        .theme-white {
+        .theme-violet {
+            --primary: #7c62dc;
+            --primary-dark: #6a50c9;
+            --primary-light: #9580e8;
+            --primary-transparent: rgba(124, 98, 220, 0.15);
+            --timer-color: #7c62dc;
+            --stats-color: #7c62dc;
+            --top3-color: #7c62dc;
+            --fps-color: #7c62dc;
+        }
+
+        .theme-blue {
             --primary: #4a6fa5;
             --primary-dark: #3a5a85;
             --primary-light: #6b8cc0;
             --primary-transparent: rgba(74, 111, 165, 0.15);
-            --bg-dark: #f5f5f5;
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --text-light: #333333;
-            --text-muted: #666666;
+            --timer-color: #4a6fa5;
+            --stats-color: #4a6fa5;
+            --top3-color: #4a6fa5;
+            --fps-color: #4a6fa5;
         }
 
-        .theme-dark {
-            --primary: #333333;
-            --primary-dark: #222222;
-            --primary-light: #444444;
-            --primary-transparent: rgba(51, 51, 51, 0.15);
-            --bg-dark: #000000;
-            --bg-card: rgba(20, 20, 20, 0.95);
-            --text-light: #f0f0f0;
-            --text-muted: #aaaaaa;
+        .theme-green {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --primary-light: #58d68d;
+            --primary-transparent: rgba(46, 204, 113, 0.15);
+            --timer-color: #2ecc71;
+            --stats-color: #2ecc71;
+            --top3-color: #2ecc71;
+            --fps-color: #2ecc71;
+        }
+
+        .theme-red {
+            --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --primary-light: #ff7979;
+            --primary-transparent: rgba(231, 76, 60, 0.15);
+            --timer-color: #e74c3c;
+            --stats-color: #e74c3c;
+            --top3-color: #e74c3c;
+            --fps-color: #e74c3c;
+        }
+
+        .theme-orange {
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --primary-light: #f39c12;
+            --primary-transparent: rgba(230, 126, 34, 0.15);
+            --timer-color: #e67e22;
+            --stats-color: #e67e22;
+            --top3-color: #e67e22;
+            --fps-color: #e67e22;
+        }
+
+        .theme-purple {
+            --primary: #9b59b6;
+            --primary-dark: #8e44ad;
+            --primary-light: #bb8fce;
+            --primary-transparent: rgba(155, 89, 182, 0.15);
+            --timer-color: #9b59b6;
+            --stats-color: #9b59b6;
+            --top3-color: #9b59b6;
+            --fps-color: #9b59b6;
+        }
+
+        .theme-pink {
+            --primary: #e84393;
+            --primary-dark: #fd79a8;
+            --primary-light: #fab1a0;
+            --primary-transparent: rgba(232, 67, 147, 0.15);
+            --timer-color: #e84393;
+            --stats-color: #e84393;
+            --top3-color: #e84393;
+            --fps-color: #e84393;
+        }
+
+        .theme-cyan {
+            --primary: #00cec9;
+            --primary-dark: #00b894;
+            --primary-light: #81ecec;
+            --primary-transparent: rgba(0, 206, 201, 0.15);
+            --timer-color: #00cec9;
+            --stats-color: #00cec9;
+            --top3-color: #00cec9;
+            --fps-color: #00cec9;
+        }
+
+        .theme-yellow {
+            --primary: #fdcb6e;
+            --primary-dark: #fdcb6e;
+            --primary-light: #ffeaa7;
+            --primary-transparent: rgba(253, 203, 110, 0.15);
+            --timer-color: #fdcb6e;
+            --stats-color: #fdcb6e;
+            --top3-color: #fdcb6e;
+            --fps-color: #fdcb6e;
+        }
+
+        .theme-midnight {
+            --primary: #2d3436;
+            --primary-dark: #636e72;
+            --primary-light: #b2bec3;
+            --primary-transparent: rgba(45, 52, 54, 0.15);
+            --timer-color: #2d3436;
+            --stats-color: #2d3436;
+            --top3-color: #2d3436;
+            --fps-color: #2d3436;
+        }
+
+        .theme-ocean {
+            --primary: #0984e3;
+            --primary-dark: #0984e3;
+            --primary-light: #74b9ff;
+            --primary-transparent: rgba(9, 132, 227, 0.15);
+            --timer-color: #0984e3;
+            --stats-color: #0984e3;
+            --top3-color: #0984e3;
+            --fps-color: #0984e3;
         }
 
         * {
@@ -180,33 +283,37 @@
             z-index: 2147483647;
             backdrop-filter: blur(10px);
             pointer-events: none;
+            resize: both;
+            overflow: auto;
+            min-width: 120px;
+            min-height: 40px;
         }
 
         #fps-overlay {
             top: 20px;
             left: 20px;
             background: rgba(0, 0, 0, 0.9);
-            color: var(--success);
+            color: var(--fps-color);
             padding: 10px 15px;
             border-radius: 10px;
-            border: 2px solid var(--success);
+            border: 2px solid var(--fps-color);
             font-family: 'Courier New', monospace;
             font-weight: bold;
         }
 
         #top3-overlay {
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background: rgba(0, 0, 0, 0.95);
-            color: #fff;
+            color: var(--top3-color);
             padding: 12px 15px;
             border-radius: 10px;
-            border: 2px solid var(--primary);
+            border: 2px solid var(--top3-color);
             min-width: 160px;
         }
 
         #top3-overlay .title {
-            color: var(--primary);
+            color: var(--top3-color);
             font-size: 12px;
             font-weight: 900;
             margin-bottom: 8px;
@@ -222,15 +329,15 @@
         }
 
         #top3-overlay .player.first {
-            color: var(--primary);
+            color: var(--top3-color);
             font-weight: 700;
         }
 
         #speedrun-timer-overlay {
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--primary);
+            border: 2px solid var(--timer-color);
             border-radius: 10px;
             padding: 12px 15px;
             font-family: 'Courier New', monospace;
@@ -240,33 +347,37 @@
         #timer-display {
             font-weight: bold;
             font-size: 18px;
-            color: var(--primary);
+            color: var(--timer-color);
             text-align: center;
             letter-spacing: 1px;
         }
 
-        .timer-controls {
+        /* Stats Panel */
+        .stats-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--stats-color);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 999;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-panel h3 {
+            color: var(--stats-color);
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .stats-item {
             display: flex;
             justify-content: space-between;
-            gap: 5px;
-            margin-top: 8px;
-        }
-
-        .timer-btn {
-            background: var(--primary);
-            border: none;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 10px;
-            flex: 1;
-            pointer-events: all;
-            transition: all 0.2s ease;
-        }
-
-        .timer-btn:hover {
-            background: var(--primary-light);
+            margin-bottom: 5px;
+            font-size: 12px;
         }
 
         /* Bottom Menu */
@@ -333,13 +444,6 @@
         .quick-btn:hover {
             background: var(--primary);
             color: #000;
-        }
-
-        .give-piece-btn {
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
-            color: #000;
-            border: none;
-            font-weight: 700;
         }
 
         /* Settings Modal */
@@ -462,8 +566,47 @@
         }
 
         .theme-option.violet { background: linear-gradient(135deg, #7c62dc, #6a50c9); color: white; }
-        .theme-option.white { background: linear-gradient(135deg, #f5f5f5, #e0e0e0); color: #333; }
-        .theme-option.dark { background: linear-gradient(135deg, #333, #222); color: white; }
+        .theme-option.blue { background: linear-gradient(135deg, #4a6fa5, #3a5a85); color: white; }
+        .theme-option.green { background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; }
+        .theme-option.red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        .theme-option.orange { background: linear-gradient(135deg, #e67e22, #d35400); color: white; }
+        .theme-option.purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; }
+        .theme-option.pink { background: linear-gradient(135deg, #e84393, #fd79a8); color: white; }
+        .theme-option.cyan { background: linear-gradient(135deg, #00cec9, #00b894); color: white; }
+        .theme-option.yellow { background: linear-gradient(135deg, #fdcb6e, #ffeaa7); color: #333; }
+        .theme-option.midnight { background: linear-gradient(135deg, #2d3436, #636e72); color: white; }
+        .theme-option.ocean { background: linear-gradient(135deg, #0984e3, #74b9ff); color: white; }
+
+        .key-config {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .key-input {
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            color: var(--text-light);
+            padding: 8px 12px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .color-config {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .color-input {
+            width: 60px;
+            height: 30px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
         /* Footer */
         footer {
@@ -503,287 +646,43 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-card);
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 15px 20px;
-            z-index: 10000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            max-width: 300px;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        /* Stats Panel */
-        .stats-panel {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 15px;
-            z-index: 999;
-            min-width: 180px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stats-panel h3 {
-            color: var(--primary);
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .stats-item {
+        /* Discord Link */
+        .discord-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 12px;
+            align-items: center;
+            gap: 5px;
         }
 
-        /* Character Selection */
-        .character-grid {
+        .discord-link:hover {
+            color: var(--primary);
+        }
+
+        /* Resolution Selector */
+        .resolution-options {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
-        .character-card {
-            background: rgba(30, 30, 40, 0.7);
-            border-radius: 8px;
+        .resolution-option {
             padding: 10px;
-            text-align: center;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            text-align: center;
             border: 2px solid transparent;
-        }
-
-        .character-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .character-card.locked {
-            filter: grayscale(1);
-            opacity: 0.6;
-        }
-
-        .character-card.selected {
-            border-color: var(--primary);
-            background: var(--primary-transparent);
-        }
-
-        .character-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 0 auto 8px;
-            background: var(--bg-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        /* Achievement System */
-        .achievement-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(30, 30, 40, 0.7);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .achievement-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .achievement-info {
-            flex: 1;
-        }
-
-        .achievement-title {
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .achievement-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .achievement-progress {
-            height: 4px;
-            background: var(--bg-dark);
-            border-radius: 2px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .achievement-progress-bar {
-            height: 100%;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        /* Leaderboard */
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .leaderboard-table th,
-        .leaderboard-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--primary-transparent);
-        }
-
-        .leaderboard-table th {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .leaderboard-table tr:hover {
-            background: var(--primary-transparent);
-        }
-
-        .leaderboard-rank {
-            width: 40px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .leaderboard-name {
-            flex: 1;
-        }
-
-        .leaderboard-score {
-            width: 100px;
-            text-align: right;
-        }
-
-        /* Customization Panel */
-        .customization-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .customization-tab {
-            padding: 8px 16px;
-            background: rgba(30, 30, 40, 0.7);
-            border-radius: 6px;
-            cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .customization-tab.active {
-            background: var(--primary);
-        }
-
-        .customization-content {
-            display: none;
-        }
-
-        .customization-content.active {
-            display: block;
-        }
-
-        /* Power-ups */
-        .powerup-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .powerup-card {
             background: rgba(30, 30, 40, 0.7);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .powerup-card:hover {
+        .resolution-option.active {
+            border-color: var(--primary);
             transform: scale(1.05);
-            border: 1px solid var(--primary);
-        }
-
-        .powerup-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .powerup-name {
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .powerup-desc {
-            font-size: 10px;
-            color: var(--text-muted);
-        }
-
-        /* Daily Challenges */
-        .challenge-list {
-            margin-top: 15px;
-        }
-
-        .challenge-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(30, 30, 40, 0.7);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .challenge-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .challenge-checkbox.completed {
-            background: var(--primary);
-        }
-
-        .challenge-info {
-            flex: 1;
-        }
-
-        .challenge-reward {
-            font-size: 12px;
-            color: var(--warning);
-            font-weight: bold;
+            background: var(--primary-transparent);
         }
 
         /* Responsive */
@@ -826,9 +725,9 @@
                 </div>
                 <div class="nav-links">
                     <a id="play-btn">🎮 Jouer</a>
-                    <a id="settings-btn">⚙️ Paramètres</a>
                     <a id="stats-btn">📊 Statistiques</a>
-                    <a id="shop-btn">🛒 Boutique</a>
+                    <a id="settings-btn">⚙️ Paramètres</a>
+                    <a href="https://discord.gg/KHfb8N3ekD" class="discord-link" target="_blank">💬 Discord</a>
                 </div>
             </div>
         </header>
@@ -843,13 +742,14 @@
                     
                     <div class="game-controls">
                         <button class="control-btn" id="fullscreen-btn">⤢ Plein écran</button>
-                        <button class="control-btn" id="screenshot-btn">📸 Capture</button>
                     </div>
 
-                    <!-- LIEN DU JEU CORRIGÉ -->
+                   <!-- 3KH0 - Clone de yell0wsuit qui AUTORISE l'iframe -->
                     <iframe id="game-iframe" 
-                            src="https://poki.com/fr/g/subway-surfers"
-                            allowfullscreen>
+                            src="https://3kh0.github.io/projects/subway-surfers/index.html"
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms">
                     </iframe>
                 </div>
             </div>
@@ -864,26 +764,21 @@
     <div id="fps-overlay" class="overlay">FPS: <span id="fps-value">60</span></div>
 
     <div id="top3-overlay" class="overlay">
-        <div class="title">TOP 3</div>
-        <div class="player first">Mynvo – 13:27</div>
-        <div class="player">Le_A – 11:51</div>
-        <div class="player">Pro – 10:23</div>
+        <div class="title">🏆 TOP 3</div>
+        <div class="player first">🥇 Mynvo – 13:27</div>
+        <div class="player">🥈 Le_A – 11:51</div>
+        <div class="player">🥉 Pro – 10:23</div>
     </div>
 
     <div id="speedrun-timer-overlay" class="overlay">
         <div id="timer-display">00:00.00</div>
-        <div class="timer-controls">
-            <button class="timer-btn" onclick="startTimer()">Start</button>
-            <button class="timer-btn" onclick="pauseTimer()">Pause</button>
-            <button class="timer-btn" onclick="resetTimer()">Reset</button>
-        </div>
     </div>
 
     <!-- Stats Panel -->
     <div class="stats-panel" id="stats-panel">
-        <h3>📊 Statistiques</h3>
+        <h3>📊 Stats</h3>
         <div class="stats-item">
-            <span>Score Max:</span>
+            <span>Score:</span>
             <span id="max-score">0</span>
         </div>
         <div class="stats-item">
@@ -903,48 +798,113 @@
     <!-- Bottom Menu -->
     <div id="bottom-menu">
         <div class="menu-header">
-            <div class="menu-title">Menu Rapide</div>
+            <div class="menu-title">⚙️ Menu Rapide</div>
             <button class="close-btn" id="close-menu-btn">✖</button>
         </div>
-        <button class="quick-btn" onclick="openSettingsModal()">Paramètres complets</button>
-        <button class="quick-btn" onclick="toggleTimer()">Timer Speedrun</button>
-        <button class="quick-btn" onclick="toggleFPS()">Afficher/Masquer FPS</button>
-        <button class="quick-btn" onclick="toggleFullscreen()">Plein écran</button>
-        <button class="quick-btn" onclick="toggleTop3()">Afficher/Masquer TOP 3</button>
-        <button class="quick-btn" onclick="toggleStats()">Afficher/Masquer Stats</button>
-        <button class="quick-btn give-piece-btn" onclick="unlockAllCharacters()">Débloquer Tout</button>
+        <button class="quick-btn" onclick="openSettingsModal()">🎮 Paramètres</button>
+        <button class="quick-btn" onclick="toggleTimer()">⏱️ Timer</button>
+        <button class="quick-btn" onclick="toggleFPS()">📊 FPS</button>
+        <button class="quick-btn" onclick="toggleFullscreen()">⤢ Plein écran</button>
+        <button class="quick-btn" onclick="toggleTop3()">🏆 TOP 3</button>
+        <button class="quick-btn" onclick="toggleStats()">📈 Stats</button>
     </div>
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
-        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">Paramètres</h2>
+        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">⚙️ Paramètres</h2>
         
         <div class="settings-section">
-            <h3>Contrôles ZQSD</h3>
-            <div class="settings-row">
-                <div class="settings-label">Haut (Z)</div>
-                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">Z</div>
-            </div>
-            <div class="settings-row">
-                <div class="settings-label">Bas (S)</div>
-                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">S</div>
-            </div>
-            <div class="settings-row">
-                <div class="settings-label">Gauche (Q)</div>
-                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">Q</div>
-            </div>
-            <div class="settings-row">
-                <div class="settings-label">Droite (D)</div>
-                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">D</div>
-            </div>
-            <div class="settings-row">
-                <div class="settings-label">Saut</div>
-                <div style="padding: 8px 12px; background: var(--bg-dark); border-radius: 6px; border: 2px solid var(--primary);">ESPACE</div>
+            <h3>🎮 Contrôles Personnalisables</h3>
+            <div class="key-config">
+                <div class="settings-row">
+                    <div class="settings-label">Haut</div>
+                    <input type="text" class="key-input" id="key-up" maxlength="1" value="Z" readonly>
+                    <button class="control-btn" onclick="changeKey('up')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Bas</div>
+                    <input type="text" class="key-input" id="key-down" maxlength="1" value="S" readonly>
+                    <button class="control-btn" onclick="changeKey('down')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Gauche</div>
+                    <input type="text" class="key-input" id="key-left" maxlength="1" value="Q" readonly>
+                    <button class="control-btn" onclick="changeKey('left')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Droite</div>
+                    <input type="text" class="key-input" id="key-right" maxlength="1" value="D" readonly>
+                    <button class="control-btn" onclick="changeKey('right')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Saut</div>
+                    <input type="text" class="key-input" id="key-jump" maxlength="1" value=" " readonly>
+                    <button class="control-btn" onclick="changeKey('jump')">Modifier</button>
+                </div>
             </div>
         </div>
 
         <div class="settings-section">
-            <h3>Affichage</h3>
+            <h3>⏱️ Contrôles Timer</h3>
+            <div class="key-config">
+                <div class="settings-row">
+                    <div class="settings-label">Start/Pause</div>
+                    <input type="text" class="key-input" id="key-timer-start" maxlength="1" value="T" readonly>
+                    <button class="control-btn" onclick="changeKey('timer-start')">Modifier</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Reset</div>
+                    <input type="text" class="key-input" id="key-timer-reset" maxlength="1" value="R" readonly>
+                    <button class="control-btn" onclick="changeKey('timer-reset')">Modifier</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>🎨 Couleurs</h3>
+            <div class="color-config">
+                <div class="settings-row">
+                    <div class="settings-label">Couleur FPS</div>
+                    <input type="color" class="color-input" id="color-fps" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur Timer</div>
+                    <input type="color" class="color-input" id="color-timer" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur TOP 3</div>
+                    <input type="color" class="color-input" id="color-top3" value="#7c62dc">
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">Couleur Stats</div>
+                    <input type="color" class="color-input" id="color-stats" value="#7c62dc">
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>🖥️ Résolution</h3>
+            <div class="resolution-options">
+                <div class="resolution-option" data-resolution="phone" onclick="changeResolution('phone')">
+                    📱 Téléphone
+                </div>
+                <div class="resolution-option" data-resolution="720p" onclick="changeResolution('720p')">
+                    🖥️ 720p
+                </div>
+                <div class="resolution-option" data-resolution="1080p" onclick="changeResolution('1080p')">
+                    🖥️ 1080p
+                </div>
+                <div class="resolution-option" data-resolution="1440p" onclick="changeResolution('1440p')">
+                    🖥️ 1440p
+                </div>
+                <div class="resolution-option active" data-resolution="auto" onclick="changeResolution('auto')">
+                    🔄 Auto
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>👁️ Affichage</h3>
             <div class="settings-row">
                 <div class="settings-label">Afficher FPS</div>
                 <label class="toggle-switch">
@@ -973,57 +933,43 @@
                     <span class="toggle-slider"></span>
                 </label>
             </div>
-        </div>
-
-        <div class="settings-section">
-            <h3>Audio</h3>
             <div class="settings-row">
-                <div class="settings-label">Volume Musique</div>
-                <input type="range" id="music-volume" min="0" max="100" value="80" style="flex: 1;">
-                <span id="music-volume-value">80%</span>
+                <div class="settings-label">Plein écran par défaut</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="fullscreen-default" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
             <div class="settings-row">
-                <div class="settings-label">Volume SFX</div>
-                <input type="range" id="sfx-volume" min="0" max="100" value="90" style="flex: 1;">
-                <span id="sfx-volume-value">90%</span>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <h3>Performance</h3>
-            <div class="settings-row">
-                <div class="settings-label">Qualité Graphique</div>
-                <select id="graphics-quality" style="flex: 1; padding: 8px; background: var(--bg-dark); color: var(--text-light); border: 2px solid var(--primary); border-radius: 6px;">
-                    <option value="low">Faible</option>
-                    <option value="medium" selected>Moyenne</option>
-                    <option value="high">Élevée</option>
-                    <option value="ultra">Ultra</option>
-                </select>
-            </div>
-            <div class="settings-row">
-                <div class="settings-label">Limite FPS</div>
-                <select id="fps-limit" style="flex: 1; padding: 8px; background: var(--bg-dark); color: var(--text-light); border: 2px solid var(--primary); border-radius: 6px;">
-                    <option value="30">30 FPS</option>
-                    <option value="60" selected>60 FPS</option>
-                    <option value="120">120 FPS</option>
-                    <option value="0">Illimité</option>
-                </select>
+                <div class="settings-label">Overlays en plein écran</div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="show-overlays-fullscreen" checked>
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
         </div>
 
         <div class="settings-section">
-            <h3>Thèmes</h3>
+            <h3>🎨 Thèmes</h3>
             <p style="color: var(--text-muted); margin-bottom: 15px;">Choisissez un thème pour l'interface :</p>
             <div class="theme-options">
-                <div class="theme-option violet active" data-theme="violet">Violet</div>
-                <div class="theme-option white" data-theme="white">Blanc</div>
-                <div class="theme-option dark" data-theme="dark">Sombre</div>
+                <div class="theme-option violet active" data-theme="violet">🔮 Violet</div>
+                <div class="theme-option blue" data-theme="blue">🔵 Bleu</div>
+                <div class="theme-option green" data-theme="green">💚 Vert</div>
+                <div class="theme-option red" data-theme="red">❤️ Rouge</div>
+                <div class="theme-option orange" data-theme="orange">🟠 Orange</div>
+                <div class="theme-option purple" data-theme="purple">🟣 Pourpre</div>
+                <div class="theme-option pink" data-theme="pink">🌸 Rose</div>
+                <div class="theme-option cyan" data-theme="cyan">💧 Cyan</div>
+                <div class="theme-option yellow" data-theme="yellow">💛 Jaune</div>
+                <div class="theme-option midnight" data-theme="midnight">🌙 Minuit</div>
+                <div class="theme-option ocean" data-theme="ocean">🌊 Océan</div>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="control-btn" onclick="resetSettings()" style="margin-right: 10px;">Réinitialiser</button>
-            <button class="control-btn" onclick="closeSettingsModal()" style="padding: 10px 20px;">Fermer</button>
+            <button class="control-btn" onclick="resetControls()" style="margin-right: 10px;">🔄 Réinitialiser</button>
+            <button class="control-btn" onclick="closeSettingsModal()" style="padding: 10px 20px;">❌ Fermer</button>
         </div>
     </div>
 
@@ -1055,160 +1001,43 @@
             </div>
         </div>
 
-        <div class="settings-section">
-            <h3>🏆 Réussites</h3>
-            <div class="achievement-badge">
-                <div class="achievement-icon">🥇</div>
-                <div class="achievement-info">
-                    <div class="achievement-title">Premier Pas</div>
-                    <div class="achievement-desc">Atteignez 1000 points</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-bar" style="width: 100%"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="achievement-badge">
-                <div class="achievement-icon">🥈</div>
-                <div class="achievement-info">
-                    <div class="achievement-title">Collectionneur</div>
-                    <div class="achievement-desc">Collectez 500 pièces</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-bar" style="width: 60%"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="achievement-badge">
-                <div class="achievement-icon">🥉</div>
-                <div class="achievement-info">
-                    <div class="achievement-title">Marathonien</div>
-                    <div class="achievement-desc">Parcourez 10 000m</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-bar" style="width: 30%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div style="text-align: center; margin-top: 20px;">
             <button class="control-btn" onclick="closeStatsModal()" style="padding: 10px 20px;">Fermer</button>
         </div>
     </div>
 
-    <!-- Shop Modal -->
-    <div id="shop-modal" class="modal">
-        <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">🛒 Boutique</h2>
-        
-        <div class="customization-tabs">
-            <div class="customization-tab active" onclick="switchShopTab('characters')">Personnages</div>
-            <div class="customization-tab" onclick="switchShopTab('powerups')">Power-ups</div>
-            <div class="customization-tab" onclick="switchShopTab('cosmetics')">Cosmétiques</div>
-        </div>
-
-        <div id="characters-tab" class="customization-content active">
-            <div class="character-grid">
-                <div class="character-card selected">
-                    <div class="character-avatar">👦</div>
-                    <div class="character-name">Jake</div>
-                    <div class="character-price">Gratuit</div>
-                </div>
-                <div class="character-card">
-                    <div class="character-avatar">👧</div>
-                    <div class="character-name">Tricky</div>
-                    <div class="character-price">500 pièces</div>
-                </div>
-                <div class="character-card locked">
-                    <div class="character-avatar">👩</div>
-                    <div class="character-name">Fresh</div>
-                    <div class="character-price">800 pièces</div>
-                </div>
-                <div class="character-card locked">
-                    <div class="character-avatar">🦸</div>
-                    <div class="character-name">Spike</div>
-                    <div class="character-price">1200 pièces</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="powerups-tab" class="customization-content">
-            <div class="powerup-grid">
-                <div class="powerup-card">
-                    <div class="powerup-icon">🚀</div>
-                    <div class="powerup-name">Jetpack</div>
-                    <div class="powerup-desc">Voler au-dessus des obstacles</div>
-                    <div class="powerup-price">200 pièces</div>
-                </div>
-                <div class="powerup-card">
-                    <div class="powerup-icon">🧲</div>
-                    <div class="powerup-name">Aimant</div>
-                    <div class="powerup-desc">Attire les pièces</div>
-                    <div class="powerup-price">150 pièces</div>
-                </div>
-                <div class="powerup-card">
-                    <div class="powerup-icon">x2</div>
-                    <div class="powerup-name">Multiplicateur</div>
-                    <div class="powerup-desc">Double les points</div>
-                    <div class="powerup-price">300 pièces</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="cosmetics-tab" class="customization-content">
-            <p style="text-align: center; color: var(--text-muted); padding: 20px;">
-                Bientôt disponible! Des skins et cosmétiques exclusifs arrivent prochainement.
-            </p>
-        </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="control-btn" onclick="closeShopModal()" style="padding: 10px 20px;">Fermer</button>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <div id="notification-message"></div>
-    </div>
-
     <script>
-        // Configuration étendue
+        // Configuration
         const config = {
             showFPS: true,
             showTop3: true,
             showTimer: false,
             showStats: true,
+            fullscreenDefault: true,
+            showOverlaysFullscreen: true,
+            resolution: 'auto',
             theme: 'violet',
-            musicVolume: 80,
-            sfxVolume: 90,
-            graphicsQuality: 'medium',
-            fpsLimit: 60,
+            colors: {
+                fps: '#7c62dc',
+                timer: '#7c62dc',
+                top3: '#7c62dc',
+                stats: '#7c62dc'
+            },
             controls: {
                 up: 'Z',
                 down: 'S',
                 left: 'Q',
                 right: 'D',
-                jump: ' '
+                jump: ' ',
+                timerStart: 'T',
+                timerReset: 'R'
             },
             stats: {
-                maxScore: 0,
-                totalDistance: 0,
-                totalCoins: 0,
-                gamesPlayed: 0,
-                totalPlaytime: 0,
-                achievements: {
-                    firstSteps: { completed: true, progress: 100 },
-                    collector: { completed: false, progress: 60 },
-                    marathon: { completed: false, progress: 30 }
-                }
-            },
-            characters: {
-                jake: { unlocked: true, selected: true },
-                tricky: { unlocked: false, selected: false },
-                fresh: { unlocked: false, selected: false },
-                spike: { unlocked: false, selected: false }
-            },
-            powerups: {
-                jetpack: { owned: 0 },
-                magnet: { owned: 0 },
-                multiplier: { owned: 0 }
+                maxScore: 12500,
+                totalDistance: 8450,
+                totalCoins: 320,
+                gamesPlayed: 15,
+                totalPlaytime: 4520
             }
         };
 
@@ -1217,29 +1046,34 @@
         let timerStartTime = 0;
         let timerCurrentTime = 0;
         let timerInterval = null;
+        let changingKey = null;
 
-        // Statistiques de jeu en temps réel
-        let gameStats = {
-            currentScore: 0,
-            currentDistance: 0,
-            currentCoins: 0,
-            currentPlaytime: 0
-        };
+        // FPS Counter
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 60;
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             setupEventListeners();
             startFPSCounter();
-            startGameStatsSimulation();
             hideLoading();
+            
+            // Plein écran par défaut si activé
+            if (config.fullscreenDefault) {
+                setTimeout(() => {
+                    toggleFullscreen();
+                }, 1000);
+            }
         });
 
         function initializeApp() {
             loadConfig();
             applyConfig();
-            setupZQSDSystem();
-            updateStatsDisplay();
+            setupCustomControls();
+            setupTimerControls();
+            setupFullscreenOverlays();
         }
 
         function setupEventListeners() {
@@ -1247,11 +1081,9 @@
             document.getElementById('play-btn').addEventListener('click', focusGame);
             document.getElementById('settings-btn').addEventListener('click', openSettingsModal);
             document.getElementById('stats-btn').addEventListener('click', openStatsModal);
-            document.getElementById('shop-btn').addEventListener('click', openShopModal);
 
             // Contrôles de jeu
             document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-            document.getElementById('screenshot-btn').addEventListener('click', takeScreenshot);
 
             // Menu contextuel
             document.addEventListener('contextmenu', function(e) {
@@ -1286,30 +1118,39 @@
                 saveConfig();
             });
 
-            // Audio
-            document.getElementById('music-volume').addEventListener('input', function() {
-                config.musicVolume = this.value;
-                document.getElementById('music-volume-value').textContent = this.value + '%';
+            document.getElementById('fullscreen-default').addEventListener('change', function() {
+                config.fullscreenDefault = this.checked;
                 saveConfig();
             });
 
-            document.getElementById('sfx-volume').addEventListener('input', function() {
-                config.sfxVolume = this.value;
-                document.getElementById('sfx-volume-value').textContent = this.value + '%';
+            document.getElementById('show-overlays-fullscreen').addEventListener('change', function() {
+                config.showOverlaysFullscreen = this.checked;
                 saveConfig();
             });
 
-            // Performance
-            document.getElementById('graphics-quality').addEventListener('change', function() {
-                config.graphicsQuality = this.value;
+            // Couleurs
+            document.getElementById('color-fps').addEventListener('input', function() {
+                config.colors.fps = this.value;
+                updateColors();
                 saveConfig();
-                showNotification('Qualité graphique définie sur: ' + this.value);
             });
 
-            document.getElementById('fps-limit').addEventListener('change', function() {
-                config.fpsLimit = parseInt(this.value);
+            document.getElementById('color-timer').addEventListener('input', function() {
+                config.colors.timer = this.value;
+                updateColors();
                 saveConfig();
-                showNotification('Limite FPS définie sur: ' + (this.value === '0' ? 'Illimité' : this.value + ' FPS'));
+            });
+
+            document.getElementById('color-top3').addEventListener('input', function() {
+                config.colors.top3 = this.value;
+                updateColors();
+                saveConfig();
+            });
+
+            document.getElementById('color-stats').addEventListener('input', function() {
+                config.colors.stats = this.value;
+                updateColors();
+                saveConfig();
             });
 
             // Thèmes
@@ -1320,25 +1161,47 @@
                 });
             });
 
-            // Gestion du plein écran
+            // Écouteur global pour la modification des touches
+            document.addEventListener('keydown', handleKeyChange);
+
+            // Plein écran
             document.addEventListener('fullscreenchange', handleFullscreenChange);
         }
 
-        // Système ZQSD
-        function setupZQSDSystem() {
-            document.addEventListener('keydown', handleZQSDKeyDown, true);
+        // Système de contrôles personnalisés
+        function setupCustomControls() {
+            document.addEventListener('keydown', handleCustomKeyDown, true);
         }
 
-        function handleZQSDKeyDown(e) {
-            if (e.target.tagName === 'INPUT') return;
+        function setupTimerControls() {
+            document.addEventListener('keydown', handleTimerKeyDown, true);
+        }
 
-            const key = e.key.toLowerCase();
+        function setupFullscreenOverlays() {
+            // S'assurer que les overlays restent visibles en plein écran
+            document.addEventListener('fullscreenchange', function() {
+                if (config.showOverlaysFullscreen) {
+                    if (document.fullscreenElement) {
+                        // Forcer l'affichage des overlays en plein écran
+                        document.querySelectorAll('.overlay').forEach(overlay => {
+                            overlay.style.display = 'block';
+                        });
+                        document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+                    }
+                }
+            });
+        }
+
+        function handleCustomKeyDown(e) {
+            if (e.target.tagName === 'INPUT' || changingKey) return;
+
+            const key = e.key.toUpperCase();
             const keyMap = {
-                'z': { key: 'ArrowUp', code: 'ArrowUp' },
-                's': { key: 'ArrowDown', code: 'ArrowDown' },
-                'q': { key: 'ArrowLeft', code: 'ArrowLeft' },
-                'd': { key: 'ArrowRight', code: 'ArrowRight' },
-                ' ': { key: ' ', code: 'Space' }
+                [config.controls.up]: { key: 'ArrowUp', code: 'ArrowUp' },
+                [config.controls.down]: { key: 'ArrowDown', code: 'ArrowDown' },
+                [config.controls.left]: { key: 'ArrowLeft', code: 'ArrowLeft' },
+                [config.controls.right]: { key: 'ArrowRight', code: 'ArrowRight' },
+                [config.controls.jump]: { key: ' ', code: 'Space' }
             };
 
             if (keyMap[key]) {
@@ -1357,6 +1220,88 @@
                     console.log('Key simulation:', keyMap[key].key);
                 }
             }
+        }
+
+        function handleTimerKeyDown(e) {
+            if (e.target.tagName === 'INPUT' || changingKey) return;
+
+            const key = e.key.toUpperCase();
+            
+            if (key === config.controls.timerStart) {
+                if (timerState === 'stopped' || timerState === 'paused') {
+                    startTimer();
+                } else if (timerState === 'running') {
+                    pauseTimer();
+                }
+            } else if (key === config.controls.timerReset) {
+                resetTimer();
+            }
+        }
+
+        // Modification des touches
+        function changeKey(action) {
+            changingKey = action;
+            const input = document.getElementById(`key-${action}`);
+            input.style.borderColor = 'var(--warning)';
+            input.placeholder = 'Appuyez sur une touche...';
+            input.value = '';
+        }
+
+        function handleKeyChange(e) {
+            if (changingKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const key = e.key.toUpperCase();
+                
+                // Vérifier si la touche est déjà utilisée
+                for (const control in config.controls) {
+                    if (config.controls[control] === key && control !== changingKey) {
+                        resetKeyInput();
+                        return;
+                    }
+                }
+                
+                document.getElementById(`key-${changingKey}`).value = key;
+                config.controls[changingKey] = key;
+                
+                document.getElementById(`key-${changingKey}`).style.borderColor = 'var(--primary)';
+                document.getElementById(`key-${changingKey}`).placeholder = '';
+                
+                saveConfig();
+                changingKey = null;
+            }
+        }
+
+        function resetKeyInput() {
+            if (changingKey) {
+                document.getElementById(`key-${changingKey}`).value = config.controls[changingKey];
+                document.getElementById(`key-${changingKey}`).style.borderColor = 'var(--primary)';
+                document.getElementById(`key-${changingKey}`).placeholder = '';
+                changingKey = null;
+            }
+        }
+
+        function resetControls() {
+            config.controls = {
+                up: 'Z',
+                down: 'S',
+                left: 'Q',
+                right: 'D',
+                jump: ' ',
+                timerStart: 'T',
+                timerReset: 'R'
+            };
+            
+            document.getElementById('key-up').value = 'Z';
+            document.getElementById('key-down').value = 'S';
+            document.getElementById('key-left').value = 'Q';
+            document.getElementById('key-right').value = 'D';
+            document.getElementById('key-jump').value = ' ';
+            document.getElementById('key-timer-start').value = 'T';
+            document.getElementById('key-timer-reset').value = 'R';
+            
+            saveConfig();
         }
 
         // Timer functions
@@ -1398,34 +1343,31 @@
                 `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${cs.toString().padStart(2, '0')}`;
         }
 
-        // FPS Counter
+        // FPS Counter (réel)
         function startFPSCounter() {
-            let frames = 0;
-            let lastTime = performance.now();
-
             function updateFPS() {
-                frames++;
-                const now = performance.now();
+                frameCount++;
+                const currentTime = performance.now();
                 
-                if (now - lastTime >= 1000) {
-                    const fps = Math.round((frames * 1000) / (now - lastTime));
+                if (currentTime - lastTime >= 1000) {
+                    fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
                     document.getElementById('fps-value').textContent = fps;
                     
                     // Changer la couleur selon les FPS
                     const fpsEl = document.getElementById('fps-overlay');
                     if (fps >= 55) {
-                        fpsEl.style.borderColor = '#00cc66';
-                        fpsEl.style.color = '#00cc66';
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
                     } else if (fps >= 30) {
-                        fpsEl.style.borderColor = '#ffaa00';
-                        fpsEl.style.color = '#ffaa00';
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
                     } else {
-                        fpsEl.style.borderColor = '#ff4444';
-                        fpsEl.style.color = '#ff4444';
+                        fpsEl.style.borderColor = config.colors.fps;
+                        fpsEl.style.color = config.colors.fps;
                     }
                     
-                    frames = 0;
-                    lastTime = now;
+                    frameCount = 0;
+                    lastTime = currentTime;
                 }
                 
                 requestAnimationFrame(updateFPS);
@@ -1433,55 +1375,10 @@
             updateFPS();
         }
 
-        // Simulation des statistiques de jeu (pour la démonstration)
-        function startGameStatsSimulation() {
-            setInterval(() => {
-                // Simuler l'augmentation des statistiques pendant le jeu
-                if (Math.random() > 0.7) {
-                    gameStats.currentScore += Math.floor(Math.random() * 100);
-                    gameStats.currentDistance += Math.floor(Math.random() * 50);
-                    gameStats.currentCoins += Math.floor(Math.random() * 5);
-                    gameStats.currentPlaytime += 1;
-                    
-                    // Mettre à jour les stats globales si nécessaire
-                    if (gameStats.currentScore > config.stats.maxScore) {
-                        config.stats.maxScore = gameStats.currentScore;
-                    }
-                    
-                    config.stats.totalDistance += gameStats.currentDistance;
-                    config.stats.totalCoins += gameStats.currentCoins;
-                    config.stats.totalPlaytime += gameStats.currentPlaytime;
-                    
-                    updateStatsDisplay();
-                    saveConfig();
-                }
-            }, 1000);
-        }
-
-        function updateStatsDisplay() {
-            // Mettre à jour le panneau de stats
-            document.getElementById('max-score').textContent = config.stats.maxScore.toLocaleString();
-            document.getElementById('total-distance').textContent = (config.stats.totalDistance / 1000).toFixed(1) + 'km';
-            document.getElementById('total-coins').textContent = config.stats.totalCoins.toLocaleString();
-            document.getElementById('games-played').textContent = config.stats.gamesPlayed;
-            
-            // Mettre à jour la modal de stats détaillées
-            document.getElementById('detailed-max-score').textContent = config.stats.maxScore.toLocaleString();
-            document.getElementById('detailed-total-distance').textContent = (config.stats.totalDistance / 1000).toFixed(1) + 'km';
-            document.getElementById('detailed-total-coins').textContent = config.stats.totalCoins.toLocaleString();
-            document.getElementById('detailed-games-played').textContent = config.stats.gamesPlayed;
-            
-            // Calculer le temps de jeu formaté
-            const hours = Math.floor(config.stats.totalPlaytime / 3600);
-            const minutes = Math.floor((config.stats.totalPlaytime % 3600) / 60);
-            const seconds = config.stats.totalPlaytime % 60;
-            document.getElementById('detailed-total-playtime').textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
         // Gestion des thèmes
         function changeTheme(themeName) {
-            document.body.classList.remove('theme-violet', 'theme-white', 'theme-dark');
+            document.body.classList.remove('theme-violet', 'theme-blue', 'theme-green', 'theme-red', 'theme-orange', 
+                                         'theme-purple', 'theme-pink', 'theme-cyan', 'theme-yellow', 'theme-midnight', 'theme-ocean');
             document.body.classList.add(`theme-${themeName}`);
             config.theme = themeName;
             
@@ -1492,7 +1389,71 @@
             document.querySelector(`.theme-option[data-theme="${themeName}"]`).classList.add('active');
             
             saveConfig();
-            showNotification(`Thème ${themeName} appliqué!`);
+        }
+
+        // Gestion de la résolution
+        function changeResolution(resolution) {
+            config.resolution = resolution;
+            
+            // Mettre à jour les sélections de résolution
+            document.querySelectorAll('.resolution-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.resolution-option[data-resolution="${resolution}"]`).classList.add('active');
+            
+            // Appliquer la résolution
+            const gameFrame = document.querySelector('.game-frame');
+            
+            switch(resolution) {
+                case 'phone':
+                    gameFrame.style.height = '50vh';
+                    gameFrame.style.minHeight = '300px';
+                    break;
+                case '720p':
+                    gameFrame.style.height = '60vh';
+                    gameFrame.style.minHeight = '400px';
+                    break;
+                case '1080p':
+                    gameFrame.style.height = '70vh';
+                    gameFrame.style.minHeight = '500px';
+                    break;
+                case '1440p':
+                    gameFrame.style.height = '80vh';
+                    gameFrame.style.minHeight = '600px';
+                    break;
+                case 'auto':
+                default:
+                    gameFrame.style.height = '80vh';
+                    gameFrame.style.minHeight = '600px';
+                    break;
+            }
+            
+            saveConfig();
+        }
+
+        // Mise à jour des couleurs
+        function updateColors() {
+            document.documentElement.style.setProperty('--fps-color', config.colors.fps);
+            document.documentElement.style.setProperty('--timer-color', config.colors.timer);
+            document.documentElement.style.setProperty('--top3-color', config.colors.top3);
+            document.documentElement.style.setProperty('--stats-color', config.colors.stats);
+            
+            // Appliquer les couleurs aux éléments
+            document.getElementById('fps-overlay').style.borderColor = config.colors.fps;
+            document.getElementById('fps-overlay').style.color = config.colors.fps;
+            
+            document.getElementById('speedrun-timer-overlay').style.borderColor = config.colors.timer;
+            document.getElementById('timer-display').style.color = config.colors.timer;
+            
+            document.getElementById('top3-overlay').style.borderColor = config.colors.top3;
+            document.getElementById('top3-overlay').style.color = config.colors.top3;
+            document.getElementById('top3-overlay').querySelector('.title').style.color = config.colors.top3;
+            document.getElementById('top3-overlay').querySelectorAll('.player').forEach(player => {
+                player.style.color = config.colors.top3;
+            });
+            
+            document.getElementById('stats-panel').style.borderColor = config.colors.stats;
+            document.getElementById('stats-panel').querySelector('h3').style.color = config.colors.stats;
         }
 
         // Fonctions d'interface
@@ -1502,6 +1463,7 @@
 
         function closeSettingsModal() {
             document.getElementById('settings-modal').classList.remove('active');
+            resetKeyInput();
         }
 
         function openStatsModal() {
@@ -1510,30 +1472,6 @@
 
         function closeStatsModal() {
             document.getElementById('stats-modal').classList.remove('active');
-        }
-
-        function openShopModal() {
-            document.getElementById('shop-modal').classList.add('active');
-        }
-
-        function closeShopModal() {
-            document.getElementById('shop-modal').classList.remove('active');
-        }
-
-        function switchShopTab(tabName) {
-            // Masquer tous les onglets
-            document.querySelectorAll('.customization-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Désactiver tous les boutons d'onglet
-            document.querySelectorAll('.customization-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Activer l'onglet sélectionné
-            document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
         }
 
         function toggleBottomMenu() {
@@ -1566,14 +1504,23 @@
             const fullscreenBtn = document.getElementById('fullscreen-btn');
             if (document.fullscreenElement) {
                 fullscreenBtn.textContent = 'Quitter Plein écran';
+                
+                // Forcer l'affichage des overlays si l'option est activée
+                if (config.showOverlaysFullscreen) {
+                    document.querySelectorAll('.overlay').forEach(overlay => {
+                        overlay.style.display = 'block';
+                    });
+                    document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
+                }
             } else {
                 fullscreenBtn.textContent = '⤢ Plein écran';
+                
+                // Restaurer l'affichage normal des overlays
+                document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+                document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+                document.getElementById('speedrun-timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+                document.getElementById('stats-panel').style.display = config.showStats ? 'block' : 'none';
             }
-        }
-
-        function takeScreenshot() {
-            showNotification('Fonctionnalité de capture d\'écran bientôt disponible!');
-            // Implémentation future: capturer le canvas du jeu
         }
 
         function toggleTimer() {
@@ -1609,54 +1556,10 @@
             document.getElementById('game-iframe').focus();
         }
 
-        function unlockAllCharacters() {
-            // Débloquer tous les personnages
-            for (const character in config.characters) {
-                config.characters[character].unlocked = true;
-            }
-            
-            // Mettre à jour l'affichage de la boutique
-            document.querySelectorAll('.character-card.locked').forEach(card => {
-                card.classList.remove('locked');
-            });
-            
-            saveConfig();
-            showNotification('Tous les personnages sont débloqués! Profitez du jeu!', 'success');
-        }
-
-        function resetSettings() {
-            if (confirm('Êtes-vous sûr de vouloir réinitialiser tous les paramètres?')) {
-                localStorage.removeItem('mynvoConfig');
-                location.reload();
-            }
-        }
-
         function hideLoading() {
             setTimeout(() => {
                 document.getElementById('loading').style.display = 'none';
             }, 2000);
-        }
-
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            const messageEl = document.getElementById('notification-message');
-            
-            messageEl.textContent = message;
-            
-            // Définir la couleur selon le type
-            if (type === 'success') {
-                notification.style.borderColor = 'var(--success)';
-            } else if (type === 'error') {
-                notification.style.borderColor = 'var(--danger)';
-            } else {
-                notification.style.borderColor = 'var(--primary)';
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
         }
 
         // Sauvegarde/Chargement de la configuration
@@ -1691,28 +1594,52 @@
             document.getElementById('show-top3').checked = config.showTop3;
             document.getElementById('show-timer').checked = config.showTimer;
             document.getElementById('show-stats').checked = config.showStats;
+            document.getElementById('fullscreen-default').checked = config.fullscreenDefault;
+            document.getElementById('show-overlays-fullscreen').checked = config.showOverlaysFullscreen;
             
-            // Appliquer les paramètres audio
-            document.getElementById('music-volume').value = config.musicVolume;
-            document.getElementById('music-volume-value').textContent = config.musicVolume + '%';
-            document.getElementById('sfx-volume').value = config.sfxVolume;
-            document.getElementById('sfx-volume-value').textContent = config.sfxVolume + '%';
+            // Appliquer les contrôles personnalisés
+            document.getElementById('key-up').value = config.controls.up;
+            document.getElementById('key-down').value = config.controls.down;
+            document.getElementById('key-left').value = config.controls.left;
+            document.getElementById('key-right').value = config.controls.right;
+            document.getElementById('key-jump').value = config.controls.jump;
+            document.getElementById('key-timer-start').value = config.controls.timerStart;
+            document.getElementById('key-timer-reset').value = config.controls.timerReset;
             
-            // Appliquer les paramètres de performance
-            document.getElementById('graphics-quality').value = config.graphicsQuality;
-            document.getElementById('fps-limit').value = config.fpsLimit;
+            // Appliquer les couleurs
+            document.getElementById('color-fps').value = config.colors.fps;
+            document.getElementById('color-timer').value = config.colors.timer;
+            document.getElementById('color-top3').value = config.colors.top3;
+            document.getElementById('color-stats').value = config.colors.stats;
+            updateColors();
+            
+            // Appliquer la résolution
+            document.querySelectorAll('.resolution-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.resolution-option[data-resolution="${config.resolution}"]`).classList.add('active');
+            changeResolution(config.resolution);
+            
+            // Mettre à jour les stats
+            document.getElementById('max-score').textContent = config.stats.maxScore.toLocaleString();
+            document.getElementById('total-distance').textContent = config.stats.totalDistance.toLocaleString() + 'm';
+            document.getElementById('total-coins').textContent = config.stats.totalCoins.toLocaleString();
+            document.getElementById('games-played').textContent = config.stats.gamesPlayed;
+            
+            document.getElementById('detailed-max-score').textContent = config.stats.maxScore.toLocaleString();
+            document.getElementById('detailed-total-distance').textContent = config.stats.totalDistance.toLocaleString() + 'm';
+            document.getElementById('detailed-total-coins').textContent = config.stats.totalCoins.toLocaleString();
+            document.getElementById('detailed-games-played').textContent = config.stats.gamesPlayed;
+            
+            // Calculer le temps de jeu formaté
+            const hours = Math.floor(config.stats.totalPlaytime / 3600);
+            const minutes = Math.floor((config.stats.totalPlaytime % 3600) / 60);
+            const seconds = config.stats.totalPlaytime % 60;
+            document.getElementById('detailed-total-playtime').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
         console.log('🎮 Subway Surfers 2025 - Version Mynvo Chargée!');
-        console.log('📊 Fonctionnalités disponibles:');
-        console.log('   - Système de contrôle ZQSD');
-        console.log('   - Overlays FPS, Timer et Top 3');
-        console.log('   - Menu contextuel avec options rapides');
-        console.log('   - Paramètres complets (audio, performance, thèmes)');
-        console.log('   - Système de statistiques détaillées');
-        console.log('   - Boutique avec personnages et power-ups');
-        console.log('   - Système de réussites et progression');
-        console.log('   - Support du plein écran et captures');
     </script>
 </body>
 </html>
