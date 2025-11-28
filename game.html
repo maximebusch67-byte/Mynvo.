@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subway Surfers - Mynvo Edition</title>
+    <style>
+        :root {
+            --primary: #7c62dc;
+            --primary-dark: #6a50c9;
+            --primary-light: #9580e8;
+            --primary-transparent: rgba(124, 98, 220, 0.15);
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(30, 30, 40, 0.95);
+            --text-light: #f0f0f0;
+            --text-muted: #aaa;
+            --success: #00cc66;
+            --danger: #ff4444;
+            --warning: #ffaa00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Game Container */
+        .game-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        #game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+
+        /* Settings Button */
+        .settings-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            color: var(--text-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Overlays */
+        .overlay {
+            position: fixed;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            min-width: 160px;
+            transition: all 0.3s ease;
+        }
+
+        /* FPS Overlay */
+        #fps-overlay {
+            top: 20px;
+            left: 20px;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Top 3 Overlay */
+        #top3-overlay {
+            bottom: 20px;
+            left: 20px;
+            color: var(--primary);
+            display: none;
+        }
+
+        .top3-title {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .top3-player {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            background: var(--primary-transparent);
+            font-size: 12px;
+        }
+
+        .top3-player.first {
+            font-weight: 700;
+            background: var(--primary-transparent);
+        }
+
+        /* Timer Overlay */
+        #timer-overlay {
+            bottom: 20px;
+            right: 20px;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            display: none;
+        }
+
+        #timer-display {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        /* Stats Overlay */
+        #stats-overlay {
+            top: 90px;
+            right: 20px;
+            color: var(--primary);
+            display: none;
+        }
+
+        .stats-title {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            padding: 2rem;
+            z-index: 10000;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            display: none;
+        }
+
+        .settings-modal.active {
+            display: block;
+        }
+
+        .settings-section {
+            background: rgba(20, 20, 30, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--primary-transparent);
+        }
+
+        .settings-section h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .control-btn {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Fullscreen Button */
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            color: var(--text-light);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Overlay when extension not installed */
+        .extension-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            border: 3px solid var(--warning);
+            border-radius: 15px;
+            padding: 2rem;
+            z-index: 10000;
+            text-align: center;
+            max-width: 400px;
+            display: none;
+        }
+
+        .extension-alert h3 {
+            color: var(--warning);
+            margin-bottom: 1rem;
+        }
+
+        .download-btn {
+            background: var(--warning);
+            color: black;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 1rem 0;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game Iframe -->
+        <iframe id="game-iframe" 
+                src="https://3kh0.github.io/projects/subway-surfers/index.html"
+                allowfullscreen>
+        </iframe>
+
+        <!-- Settings Button -->
+        <div class="settings-btn" onclick="toggleSettings()">⚙️</div>
+
+        <!-- Fullscreen Button -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">⤢ Plein écran</button>
+
+        <!-- Overlays -->
+        <div id="fps-overlay" class="overlay">FPS: <span id="fps-value">60</span></div>
+
+        <div id="top3-overlay" class="overlay">
+            <div class="top3-title">🏆 TOP 3 MYNVO</div>
+            <div class="top3-player first">🥇 Mynvo – 1,250,000</div>
+            <div class="top3-player">🥈 SpeedRunner – 980,000</div>
+            <div class="top3-player">🥉 SubwayKing – 875,000</div>
+        </div>
+
+        <div id="timer-overlay" class="overlay">
+            <div id="timer-display">00:00.00</div>
+        </div>
+
+        <div id="stats-overlay" class="overlay">
+            <div class="stats-title">📊 STATS</div>
+            <div class="stats-item">
+                <span>Score:</span>
+                <span id="stats-score">0</span>
+            </div>
+            <div class="stats-item">
+                <span>Distance:</span>
+                <span id="stats-distance">0m</span>
+            </div>
+            <div class="stats-item">
+                <span>Pièces:</span>
+                <span id="stats-coins">0</span>
+            </div>
+            <div class="stats-item">
+                <span>Multiplicateur:</span>
+                <span id="stats-multiplier">1x</span>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="settings-modal">
+            <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">⚙️ Paramètres Overlays</h2>
+            
+            <div class="settings-section">
+                <h3>👁️ Affichage des Overlays</h3>
+                <div class="settings-row">
+                    <span>Afficher FPS</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-fps">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-row">
+                    <span>Afficher TOP 3</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-top3">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-row">
+                    <span>Afficher Timer</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-timer">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-row">
+                    <span>Afficher Stats</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-stats">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🎮 Contrôles</h3>
+                <p style="color: var(--text-muted); margin-bottom: 10px; font-size: 14px;">
+                    Pour les contrôles ZQSD, installez l'extension Mynvo
+                </p>
+                <button class="control-btn" onclick="downloadExtension()" style="width: 100%;">
+                    📥 Télécharger l'Extension
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="control-btn" onclick="toggleSettings()" style="padding: 10px 20px;">
+                    ✅ Fermer
+                </button>
+            </div>
+        </div>
+
+        <!-- Extension Alert -->
+        <div id="extension-alert" class="extension-alert">
+            <h3>🎮 Extension Recommandée</h3>
+            <p>Pour profiter des contrôles ZQSD optimisés, installez l'extension Mynvo !</p>
+            <a href="extension/mynvo-extension.zip" download class="download-btn">
+                📥 Télécharger l'Extension
+            </a>
+            <p style="margin-top: 15px; font-size: 14px; color: var(--text-muted);">
+                <button class="control-btn" onclick="closeExtensionAlert()" style="background: var(--danger);">
+                    ❌ Fermer
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const config = {
+            showFPS: true,
+            showTop3: true,
+            showTimer: false,
+            showStats: true
+        };
+
+        // État du timer
+        let timerState = 'stopped';
+        let timerStartTime = 0;
+        let timerCurrentTime = 0;
+        let timerInterval = null;
+
+        // FPS Counter
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 60;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+            applyConfig();
+            startFPSCounter();
+            startTimer();
+            checkExtension();
+            
+            // Plein écran automatique
+            setTimeout(() => {
+                toggleFullscreen();
+            }, 1000);
+        });
+
+        function loadConfig() {
+            try {
+                const saved = localStorage.getItem('mynvoOverlayConfig');
+                if (saved) {
+                    Object.assign(config, JSON.parse(saved));
+                }
+            } catch (e) {
+                console.warn('Impossible de charger la configuration');
+            }
+        }
+
+        function saveConfig() {
+            localStorage.setItem('mynvoOverlayConfig', JSON.stringify(config));
+        }
+
+        function applyConfig() {
+            document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+            document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+            document.getElementById('timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+            document.getElementById('stats-overlay').style.display = config.showStats ? 'block' : 'none';
+            
+            document.getElementById('show-fps').checked = config.showFPS;
+            document.getElementById('show-top3').checked = config.showTop3;
+            document.getElementById('show-timer').checked = config.showTimer;
+            document.getElementById('show-stats').checked = config.showStats;
+        }
+
+        // Settings Modal
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.toggle('active');
+        }
+
+        // Event Listeners for toggles
+        document.getElementById('show-fps').addEventListener('change', function() {
+            config.showFPS = this.checked;
+            document.getElementById('fps-overlay').style.display = config.showFPS ? 'block' : 'none';
+            saveConfig();
+        });
+
+        document.getElementById('show-top3').addEventListener('change', function() {
+            config.showTop3 = this.checked;
+            document.getElementById('top3-overlay').style.display = config.showTop3 ? 'block' : 'none';
+            saveConfig();
+        });
+
+        document.getElementById('show-timer').addEventListener('change', function() {
+            config.showTimer = this.checked;
+            document.getElementById('timer-overlay').style.display = config.showTimer ? 'block' : 'none';
+            saveConfig();
+        });
+
+        document.getElementById('show-stats').addEventListener('change', function() {
+            config.showStats = this.checked;
+            document.getElementById('stats-overlay').style.display = config.showStats ? 'block' : 'none';
+            saveConfig();
+        });
+
+        // FPS Counter
+        function startFPSCounter() {
+            function updateFPS() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    document.getElementById('fps-value').textContent = fps;
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                requestAnimationFrame(updateFPS);
+            }
+            updateFPS();
+        }
+
+        // Timer
+        function startTimer() {
+            timerStartTime = performance.now();
+            timerState = 'running';
+            
+            timerInterval = setInterval(() => {
+                if (timerState === 'running') {
+                    timerCurrentTime = performance.now() - timerStartTime;
+                    updateTimerDisplay();
+                }
+            }, 10);
+        }
+
+        function updateTimerDisplay() {
+            const totalSec = Math.floor(timerCurrentTime / 1000);
+            const m = Math.floor(totalSec / 60);
+            const s = totalSec % 60;
+            const cs = Math.floor((timerCurrentTime % 1000) / 10);
+            
+            document.getElementById('timer-display').textContent = 
+                `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${cs.toString().padStart(2, '0')}`;
+        }
+
+        // Fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Extension
+        function checkExtension() {
+            // Vérifier si l'extension est installée
+            setTimeout(() => {
+                if (!window.mynvoExtensionInstalled) {
+                    document.getElementById('extension-alert').style.display = 'block';
+                }
+            }, 3000);
+        }
+
+        function downloadExtension() {
+            window.open('extension/mynvo-extension.zip', '_blank');
+        }
+
+        function closeExtensionAlert() {
+            document.getElementById('extension-alert').style.display = 'none';
+        }
+
+        // Écouter les messages du parent
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'CHECK_EXTENSION') {
+                // Répondre avec le statut de l'extension
+                window.parent.postMessage({
+                    type: 'EXTENSION_STATUS',
+                    installed: window.mynvoExtensionInstalled || false
+                }, '*');
+            }
+        });
+
+        // Simuler des stats (pour la démo)
+        setInterval(() => {
+            if (config.showStats) {
+                document.getElementById('stats-score').textContent = 
+                    Math.floor(Math.random() * 100000).toLocaleString();
+                document.getElementById('stats-distance').textContent = 
+                    Math.floor(Math.random() * 5000) + 'm';
+                document.getElementById('stats-coins').textContent = 
+                    Math.floor(Math.random() * 500);
+                document.getElementById('stats-multiplier').textContent = 
+                    Math.floor(Math.random() * 5) + 1 + 'x';
+            }
+        }, 2000);
+
+        console.log('🎮 Subway Surfers Mynvo - Overlays activés');
+    </script>
+</body>
+</html>
