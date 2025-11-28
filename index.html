@@ -1711,6 +1711,326 @@
 
         console.log('🎮 Subway Surfers 2025 - Version Mynvo Chargée!');
         console.log('✅ Système de touches personnalisées intégré');
+        <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Script Contrôles Personnalisés - À intégrer dans votre site</title>
+</head>
+<body>
+<!-- 
+========================================
+INSTRUCTIONS D'INSTALLATION
+========================================
+
+COPIEZ CE SCRIPT ET COLLEZ-LE DANS VOTRE index.html
+JUSTE AVANT LA BALISE </body> (tout à la fin)
+
+Ce script remplace complètement la fonction setupGameControls()
+et utilise la même logique que votre extension Chrome qui fonctionnait !
+========================================
+-->
+
+<script>
+console.log("🎮 Chargement du système de contrôles personnalisés...");
+
+// ========================================
+// FONCTION PRINCIPALE - REMPLACE setupGameControls()
+// ========================================
+
+function setupGameControls() {
+    console.log("✅ Initialisation des contrôles personnalisés (basé sur extension Chrome)");
+    
+    // Fonction pour charger la config depuis l'objet global config
+    const loadConfig = () => {
+        return {
+            up: config.controls.up.toLowerCase(),
+            down: config.controls.down.toLowerCase(),
+            left: config.controls.left.toLowerCase(),
+            right: config.controls.right.toLowerCase(),
+            jump: config.controls.jump
+        };
+    };
+    
+    // Fonction pour appliquer le mapping des touches
+    const applyMapping = (cfg) => {
+        console.log("🔧 Application du mapping:", cfg);
+        
+        // Créer le dictionnaire de correspondance touche -> keyCode
+        const map = {
+            [cfg.up]:    38,  // ArrowUp
+            [cfg.down]:  40,  // ArrowDown
+            [cfg.left]:  37,  // ArrowLeft
+            [cfg.right]: 39,  // ArrowRight
+            [cfg.jump]:  32   // Space
+        };
+        
+        // Handler principal qui intercepte les touches
+        const handler = (e) => {
+            // Ignorer si on est dans un input ou si on change une touche
+            if (e.target.tagName === 'INPUT' || 
+                e.target.tagName === 'TEXTAREA' || 
+                changingKey) {
+                return;
+            }
+            
+            // Récupérer le keyCode correspondant à la touche pressée
+            const kc = map[e.key.toLowerCase()];
+            if (!kc) return; // Pas une de nos touches personnalisées
+            
+            // BLOQUER l'événement original
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            
+            // Créer un NOUVEL événement avec le bon keyCode
+            const ev = new KeyboardEvent(e.type, {
+                keyCode: kc,
+                which: kc,
+                key: getKeyName(kc),
+                code: getKeyCode(kc),
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            
+            // Ajouter les propriétés manuellement pour compatibilité
+            Object.defineProperty(ev, 'keyCode', { value: kc, writable: false });
+            Object.defineProperty(ev, 'which', { value: kc, writable: false });
+            
+            // INJECTION DANS LE CANVAS (comme l'extension)
+            const canvas = document.querySelector("canvas");
+            if (canvas) {
+                canvas.dispatchEvent(ev);
+            }
+            
+            // INJECTION DANS L'IFRAME
+            const iframe = document.getElementById('game-iframe');
+            if (iframe) {
+                try {
+                    // Essayer d'injecter dans l'iframe
+                    if (iframe.contentWindow) {
+                        iframe.contentWindow.dispatchEvent(ev);
+                    }
+                    if (iframe.contentDocument) {
+                        iframe.contentDocument.dispatchEvent(ev);
+                        
+                        // Cibler le canvas dans l'iframe
+                        const iframeCanvas = iframe.contentDocument.querySelector("canvas");
+                        if (iframeCanvas) {
+                            iframeCanvas.dispatchEvent(ev);
+                        }
+                    }
+                } catch (err) {
+                    // Cross-origin - ignorer
+                }
+            }
+            
+            // Dispatcher aussi globalement
+            document.dispatchEvent(ev);
+            window.dispatchEvent(ev);
+            
+            // Debug
+            console.log(`🎮 ${e.key.toUpperCase()} → ${getKeyName(kc)}`);
+        };
+        
+        // SUPPRIMER les anciens handlers
+        ["keydown", "keyup"].forEach(t => {
+            if (window.currentHandler) {
+                document.removeEventListener(t, window.currentHandler, true);
+                window.removeEventListener(t, window.currentHandler, true);
+            }
+        });
+        
+        // INSTALLER les nouveaux handlers avec CAPTURE
+        const newHandler = handler.bind({});
+        ["keydown", "keyup"].forEach(t => {
+            document.addEventListener(t, newHandler, { capture: true });
+            window.addEventListener(t, newHandler, { capture: true });
+        });
+        
+        // Sauvegarder le handler
+        window.currentHandler = newHandler;
+        
+        console.log("✅ Handlers installés avec succès");
+    };
+    
+    // Helper: Obtenir le nom de la touche depuis le keyCode
+    function getKeyName(keyCode) {
+        const keyMap = {
+            38: 'ArrowUp',
+            40: 'ArrowDown',
+            37: 'ArrowLeft',
+            39: 'ArrowRight',
+            32: ' '
+        };
+        return keyMap[keyCode] || '';
+    }
+    
+    // Helper: Obtenir le code de la touche depuis le keyCode
+    function getKeyCode(keyCode) {
+        const codeMap = {
+            38: 'ArrowUp',
+            40: 'ArrowDown',
+            37: 'ArrowLeft',
+            39: 'ArrowRight',
+            32: 'Space'
+        };
+        return codeMap[keyCode] || '';
+    }
+    
+    // APPLIQUER le mapping initial
+    applyMapping(loadConfig());
+    
+    // ATTENDRE que le canvas soit disponible et le focus
+    const waitForCanvas = setInterval(() => {
+        const iframe = document.getElementById('game-iframe');
+        if (iframe) {
+            try {
+                const canvas = iframe.contentDocument?.querySelector("canvas");
+                if (canvas) {
+                    clearInterval(waitForCanvas);
+                    canvas.focus();
+                    canvas.tabIndex = 1;
+                    console.log("✅ Canvas trouvé et focus appliqué");
+                    
+                    // Afficher un indicateur visuel des touches (comme l'extension)
+                    showKeyIndicator(loadConfig());
+                }
+            } catch (err) {
+                // Cross-origin, essayer sur le document principal
+                const canvas = document.querySelector("canvas");
+                if (canvas) {
+                    clearInterval(waitForCanvas);
+                    canvas.focus();
+                    canvas.tabIndex = 1;
+                    console.log("✅ Canvas trouvé (document principal)");
+                    showKeyIndicator(loadConfig());
+                }
+            }
+        }
+    }, 200);
+    
+    // Timeout de sécurité (arrêter après 10 secondes)
+    setTimeout(() => clearInterval(waitForCanvas), 10000);
+    
+    // RÉAPPLIQUER quand la config change
+    const originalSaveConfig = window.saveConfig;
+    window.saveConfig = function() {
+        originalSaveConfig.call(this);
+        applyMapping(loadConfig());
+        updateKeyIndicator(loadConfig());
+        console.log("🔄 Configuration mise à jour");
+    };
+}
+
+// ========================================
+// INDICATEUR VISUEL DES TOUCHES
+// ========================================
+
+function showKeyIndicator(cfg) {
+    // Ne créer l'indicateur qu'une seule fois
+    if (document.getElementById('key-indicator-mynvo')) {
+        updateKeyIndicator(cfg);
+        return;
+    }
+    
+    const div = document.createElement("div");
+    div.id = 'key-indicator-mynvo';
+    div.textContent = formatKeyDisplay(cfg);
+    div.style.cssText = `
+        position: fixed;
+        bottom: 140px;
+        right: 20px;
+        z-index: 2147483647;
+        background: rgba(13, 17, 23, 0.95);
+        color: #58a6ff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: bold;
+        border: 2px solid var(--primary, #7c62dc);
+        box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+        pointer-events: none;
+        backdrop-filter: blur(10px);
+        font-family: 'Courier New', monospace;
+        letter-spacing: 2px;
+    `;
+    document.body.appendChild(div);
+    console.log("✅ Indicateur de touches affiché");
+}
+
+function updateKeyIndicator(cfg) {
+    const indicator = document.getElementById('key-indicator-mynvo');
+    if (indicator) {
+        indicator.textContent = formatKeyDisplay(cfg);
+    }
+}
+
+function formatKeyDisplay(cfg) {
+    const jumpKey = cfg.jump === " " ? "SPACE" : cfg.jump.toUpperCase();
+    return `${cfg.left.toUpperCase()} ${cfg.up.toUpperCase()} ${cfg.down.toUpperCase()} ${cfg.right.toUpperCase()} | ${jumpKey}`;
+}
+
+// ========================================
+// AUTO-INITIALISATION
+// ========================================
+
+// Attendre que la page soit chargée
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("📄 DOM chargé, initialisation des contrôles...");
+        
+        // Attendre un peu que config soit défini
+        setTimeout(() => {
+            if (typeof config !== 'undefined') {
+                setupGameControls();
+            } else {
+                console.error("❌ Variable 'config' non trouvée");
+            }
+        }, 100);
+    });
+} else {
+    console.log("📄 DOM déjà chargé, initialisation immédiate...");
+    
+    // Attendre un peu que config soit défini
+    setTimeout(() => {
+        if (typeof config !== 'undefined') {
+            setupGameControls();
+        } else {
+            console.error("❌ Variable 'config' non trouvée");
+        }
+    }, 100);
+}
+
+console.log("✅ Script de contrôles chargé et prêt");
+</script>
+
+<!-- 
+========================================
+FIN DU SCRIPT
+========================================
+
+IMPORTANT: 
+1. Copiez TOUT le <script> ci-dessus
+2. Collez-le dans votre index.html JUSTE AVANT </body>
+3. Il remplacera automatiquement la fonction setupGameControls()
+4. Sauvegardez et rechargez la page
+5. Testez avec Z, Q, S, D
+
+Vous devriez voir:
+- Un indicateur en bas à droite montrant vos touches (Q Z S D | SPACE)
+- Des logs dans la console: "🎮 Z → ArrowUp"
+- Le jeu devrait répondre aux touches ZQSD
+
+Si ça ne marche pas:
+- Ouvrez la console (F12)
+- Vérifiez les messages d'erreur
+- Vérifiez que vous n'êtes pas dans un champ input
+- Vérifiez que l'iframe a bien l'id "game-iframe"
+========================================
+-->
+
     </script>
 </body>
 </html>
