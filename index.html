@@ -1059,6 +1059,7 @@
             setupEventListeners();
             startFPSCounter();
             hideLoading();
+            setupGameControls(); // NOUVEAU: Initialisation des contrôles de jeu
             
             // Plein écran par défaut si activé
             if (config.fullscreenDefault) {
@@ -1071,9 +1072,116 @@
         function initializeApp() {
             loadConfig();
             applyConfig();
-            setupGameControls();
             setupTimerControls();
             setupFullscreenOverlays();
+        }
+
+        // NOUVEAU: Système de contrôles de jeu FONCTIONNEL (basé sur content.js)
+        function setupGameControls() {
+            console.log("🎮 Initialisation des contrôles personnalisés...");
+            
+            const applyKeyMapping = () => {
+                const map = {
+                    [config.controls.up.toLowerCase()]:    38,    // ArrowUp
+                    [config.controls.down.toLowerCase()]:  40,    // ArrowDown
+                    [config.controls.left.toLowerCase()]:  37,    // ArrowLeft
+                    [config.controls.right.toLowerCase()]: 39,    // ArrowRight
+                    [config.controls.jump]:                32     // Space
+                };
+
+                const handler = (e) => {
+                    // Ignorer si on est en train de modifier une touche
+                    if (changingKey) return;
+                    
+                    const key = e.key.toLowerCase();
+                    const kc = map[key];
+                    
+                    if (!kc) return;
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+
+                    // Créer un nouvel événement avec les bonnes keycodes
+                    const newEvent = new KeyboardEvent(e.type, {
+                        key: getKeyName(kc),
+                        code: getKeyCode(kc),
+                        keyCode: kc,
+                        which: kc,
+                        bubbles: true,
+                        cancelable: true,
+                        composed: true
+                    });
+
+                    // Injecter l'événement dans l'iframe
+                    const iframe = document.getElementById('game-iframe');
+                    if (iframe && iframe.contentWindow) {
+                        try {
+                            iframe.contentWindow.dispatchEvent(newEvent);
+                            
+                            // Également injecter dans le document de l'iframe
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            iframeDoc.dispatchEvent(newEvent);
+                            
+                            // Cibler le canvas si il existe
+                            const canvas = iframeDoc.querySelector('canvas');
+                            if (canvas) {
+                                canvas.dispatchEvent(newEvent);
+                            }
+                        } catch (err) {
+                            console.log('Injection clavier:', getKeyName(kc));
+                        }
+                    }
+                };
+
+                // Nettoyer les anciens écouteurs
+                ["keydown", "keyup"].forEach(type => {
+                    document.removeEventListener(type, window.currentKeyHandler, true);
+                    window.removeEventListener(type, window.currentKeyHandler, true);
+                });
+
+                // Ajouter les nouveaux écouteurs
+                const newHandler = handler.bind({});
+                ["keydown", "keyup"].forEach(type => {
+                    document.addEventListener(type, newHandler, { capture: true });
+                    window.addEventListener(type, newHandler, { capture: true });
+                });
+                
+                window.currentKeyHandler = newHandler;
+            };
+
+            // Appliquer le mapping initial
+            applyKeyMapping();
+
+            // Mettre à jour quand la config change
+            const originalSaveConfig = saveConfig;
+            saveConfig = function() {
+                originalSaveConfig();
+                applyKeyMapping();
+            };
+        }
+
+        // Helper functions pour les keycodes
+        function getKeyName(keyCode) {
+            const keyMap = {
+                38: 'ArrowUp',
+                40: 'ArrowDown', 
+                37: 'ArrowLeft',
+                39: 'ArrowRight',
+                32: ' '
+            };
+            return keyMap[keyCode] || '';
+        }
+
+        function getKeyCode(keyCode) {
+            const codeMap = {
+                38: 'ArrowUp',
+                40: 'ArrowDown',
+                37: 'ArrowLeft', 
+                39: 'ArrowRight',
+                32: 'Space'
+            };
+            return codeMap[keyCode] || '';
         }
 
         function setupEventListeners() {
@@ -1168,101 +1276,6 @@
             document.addEventListener('fullscreenchange', handleFullscreenChange);
         }
 
-        // Système de contrôles de jeu FONCTIONNEL
-        function setupGameControls() {
-            document.addEventListener('keydown', function(e) {
-                if (e.target.tagName === 'INPUT' || changingKey) return;
-
-                const key = e.key.toUpperCase();
-                const keyMap = {
-                    [config.controls.up]: { type: 'keydown', key: 'ArrowUp', code: 'ArrowUp' },
-                    [config.controls.down]: { type: 'keydown', key: 'ArrowDown', code: 'ArrowDown' },
-                    [config.controls.left]: { type: 'keydown', key: 'ArrowLeft', code: 'ArrowLeft' },
-                    [config.controls.right]: { type: 'keydown', key: 'ArrowRight', code: 'ArrowRight' },
-                    [config.controls.jump]: { type: 'keydown', key: ' ', code: 'Space' }
-                };
-
-                if (keyMap[key]) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Injection directe des événements dans l'iframe
-                    const iframe = document.getElementById('game-iframe');
-                    try {
-                        const iframeWindow = iframe.contentWindow;
-                        
-                        // Créer et dispatcher l'événement keydown
-                        const keyDownEvent = new KeyboardEvent('keydown', {
-                            key: keyMap[key].key,
-                            code: keyMap[key].code,
-                            keyCode: getKeyCode(keyMap[key].key),
-                            which: getKeyCode(keyMap[key].key),
-                            bubbles: true,
-                            cancelable: true
-                        });
-                        
-                        iframeWindow.dispatchEvent(keyDownEvent);
-                        
-                        // Forcer le focus sur l'iframe
-                        iframeWindow.focus();
-                        
-                    } catch (err) {
-                        console.log('Injection clavier:', keyMap[key].key);
-                    }
-                }
-            });
-
-            // Gérer aussi le keyup pour éviter les touches bloquées
-            document.addEventListener('keyup', function(e) {
-                if (e.target.tagName === 'INPUT' || changingKey) return;
-
-                const key = e.key.toUpperCase();
-                const keyMap = {
-                    [config.controls.up]: { type: 'keyup', key: 'ArrowUp', code: 'ArrowUp' },
-                    [config.controls.down]: { type: 'keyup', key: 'ArrowDown', code: 'ArrowDown' },
-                    [config.controls.left]: { type: 'keyup', key: 'ArrowLeft', code: 'ArrowLeft' },
-                    [config.controls.right]: { type: 'keyup', key: 'ArrowRight', code: 'ArrowRight' },
-                    [config.controls.jump]: { type: 'keyup', key: ' ', code: 'Space' }
-                };
-
-                if (keyMap[key]) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const iframe = document.getElementById('game-iframe');
-                    try {
-                        const iframeWindow = iframe.contentWindow;
-                        
-                        const keyUpEvent = new KeyboardEvent('keyup', {
-                            key: keyMap[key].key,
-                            code: keyMap[key].code,
-                            keyCode: getKeyCode(keyMap[key].key),
-                            which: getKeyCode(keyMap[key].key),
-                            bubbles: true,
-                            cancelable: true
-                        });
-                        
-                        iframeWindow.dispatchEvent(keyUpEvent);
-                        
-                    } catch (err) {
-                        console.log('Keyup injection:', keyMap[key].key);
-                    }
-                }
-            });
-        }
-
-        // Helper pour obtenir les keyCodes
-        function getKeyCode(key) {
-            const keyCodes = {
-                'ArrowUp': 38,
-                'ArrowDown': 40,
-                'ArrowLeft': 37,
-                'ArrowRight': 39,
-                ' ': 32
-            };
-            return keyCodes[key] || key.charCodeAt(0);
-        }
-
         function setupTimerControls() {
             document.addEventListener('keydown', handleTimerKeyDown);
         }
@@ -1328,6 +1341,9 @@
                 
                 saveConfig();
                 changingKey = null;
+                
+                // Recharger les contrôles de jeu
+                setupGameControls();
             }
         }
 
@@ -1360,6 +1376,7 @@
             document.getElementById('key-timer-reset').value = 'R';
             
             saveConfig();
+            setupGameControls();
         }
 
         // Timer functions
