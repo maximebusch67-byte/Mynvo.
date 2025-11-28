@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Mynvo - Contrôles ZQSD Subway Surfers",
+  "version": "2.0",
+  "description": "Contrôles ZQSD optimisés pour Subway Surfers sur le site Mynvo",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://3kh0.github.io/projects/subway-surfers/index.html*",
+      "http://localhost/*",
+      "https://votre-site-mynvo.com/*"
+    ],
+    "js": ["content.js"],
+    "run_at": "document_start",
+    "all_frames": true
+  }],
+  "web_accessible_resources": [{
+    "resources": ["inject.js"],
+    "matches": ["<all_urls>"]
+  }],
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Mynvo ZQSD"
+  }
+}
