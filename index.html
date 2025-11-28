@@ -1059,7 +1059,11 @@
             setupEventListeners();
             startFPSCounter();
             hideLoading();
-            setupGameControls(); // NOUVEAU: Initialisation des contrôles de jeu
+            
+            // SYSTEME DE TOUCHES - Initialisation
+            setTimeout(() => {
+                setupGameControls();
+            }, 3000);
             
             // Plein écran par défaut si activé
             if (config.fullscreenDefault) {
@@ -1076,88 +1080,79 @@
             setupFullscreenOverlays();
         }
 
-        // NOUVEAU: Système de contrôles de jeu FONCTIONNEL (basé sur content.js)
+        // SYSTEME DE TOUCHES FONCTIONNEL
         function setupGameControls() {
             console.log("🎮 Initialisation des contrôles personnalisés...");
             
-            const applyKeyMapping = () => {
-                const map = {
-                    [config.controls.up.toLowerCase()]:    38,    // ArrowUp
-                    [config.controls.down.toLowerCase()]:  40,    // ArrowDown
-                    [config.controls.left.toLowerCase()]:  37,    // ArrowLeft
-                    [config.controls.right.toLowerCase()]: 39,    // ArrowRight
-                    [config.controls.jump]:                32     // Space
-                };
+            const map = {
+                [config.controls.up.toLowerCase()]:    38,    // ArrowUp
+                [config.controls.down.toLowerCase()]:  40,    // ArrowDown  
+                [config.controls.left.toLowerCase()]:  37,    // ArrowLeft
+                [config.controls.right.toLowerCase()]: 39,    // ArrowRight
+                [config.controls.jump]:                32     // Space
+            };
 
+            let currentHandler = null;
+
+            const applyMapping = () => {
+                // Supprimer l'ancien handler
+                if (currentHandler) {
+                    document.removeEventListener('keydown', currentHandler, true);
+                    document.removeEventListener('keyup', currentHandler, true);
+                }
+
+                // Nouveau handler
                 const handler = (e) => {
-                    // Ignorer si on est en train de modifier une touche
                     if (changingKey) return;
                     
                     const key = e.key.toLowerCase();
-                    const kc = map[key];
+                    const keyCode = map[key];
                     
-                    if (!kc) return;
+                    if (!keyCode) return;
 
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     e.stopPropagation();
 
-                    // Créer un nouvel événement avec les bonnes keycodes
+                    // Créer le nouvel événement
                     const newEvent = new KeyboardEvent(e.type, {
-                        key: getKeyName(kc),
-                        code: getKeyCode(kc),
-                        keyCode: kc,
-                        which: kc,
+                        key: getKeyName(keyCode),
+                        code: getKeyCode(keyCode),
+                        keyCode: keyCode,
+                        which: keyCode,
                         bubbles: true,
                         cancelable: true,
                         composed: true
                     });
 
-                    // Injecter l'événement dans l'iframe
+                    // Injecter dans l'iframe
                     const iframe = document.getElementById('game-iframe');
                     if (iframe && iframe.contentWindow) {
                         try {
                             iframe.contentWindow.dispatchEvent(newEvent);
-                            
-                            // Également injecter dans le document de l'iframe
-                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                            iframeDoc.dispatchEvent(newEvent);
-                            
-                            // Cibler le canvas si il existe
-                            const canvas = iframeDoc.querySelector('canvas');
-                            if (canvas) {
-                                canvas.dispatchEvent(newEvent);
-                            }
+                            console.log(`✅ Touche ${key} -> ${getKeyName(keyCode)}`);
                         } catch (err) {
-                            console.log('Injection clavier:', getKeyName(kc));
+                            console.log('Injection:', getKeyName(keyCode));
                         }
                     }
                 };
 
-                // Nettoyer les anciens écouteurs
-                ["keydown", "keyup"].forEach(type => {
-                    document.removeEventListener(type, window.currentKeyHandler, true);
-                    window.removeEventListener(type, window.currentKeyHandler, true);
-                });
-
-                // Ajouter les nouveaux écouteurs
-                const newHandler = handler.bind({});
-                ["keydown", "keyup"].forEach(type => {
-                    document.addEventListener(type, newHandler, { capture: true });
-                    window.addEventListener(type, newHandler, { capture: true });
-                });
+                // Ajouter les écouteurs
+                document.addEventListener('keydown', handler, { capture: true });
+                document.addEventListener('keyup', handler, { capture: true });
+                currentHandler = handler;
                 
-                window.currentKeyHandler = newHandler;
+                console.log('🎮 Contrôles activés:', config.controls);
             };
 
-            // Appliquer le mapping initial
-            applyKeyMapping();
+            // Appliquer le mapping
+            applyMapping();
 
             // Mettre à jour quand la config change
             const originalSaveConfig = saveConfig;
-            saveConfig = function() {
+            window.saveConfig = function() {
                 originalSaveConfig();
-                applyKeyMapping();
+                applyMapping();
             };
         }
 
@@ -1715,410 +1710,7 @@
         }
 
         console.log('🎮 Subway Surfers 2025 - Version Mynvo Chargée!');
-        console.log('✅ Contrôles personnalisés activés - Les touches devraient maintenant fonctionner');
-    </script>// ========================================
-// SCRIPT DE CONTRÔLES PERSONNALISÉS
-// Pour Subway Surfers - Version Mynvo
-// ========================================
-
-(function() {
-    'use strict';
-    
-    // Configuration des touches par défaut
-    let keyMapping = {
-        up: 'Z',
-        down: 'S',
-        left: 'Q',
-        right: 'D',
-        jump: ' '
-    };
-    
-    // Correspondance touches -> keycodes des flèches
-    const arrowKeyCodes = {
-        up: 38,      // ArrowUp
-        down: 40,    // ArrowDown
-        left: 37,    // ArrowLeft
-        right: 39,   // ArrowRight
-        jump: 32     // Space
-    };
-    
-    // Variable pour savoir si on est en train de changer une touche
-    let isChangingKey = false;
-    
-    // Charger la configuration sauvegardée
-    function loadKeyMapping() {
-        try {
-            const saved = localStorage.getItem('mynvoKeyMapping');
-            if (saved) {
-                keyMapping = JSON.parse(saved);
-                console.log('✅ Configuration des touches chargée:', keyMapping);
-            }
-        } catch (e) {
-            console.warn('⚠️ Impossible de charger la configuration des touches');
-        }
-    }
-    
-    // Sauvegarder la configuration
-    function saveKeyMapping() {
-        try {
-            localStorage.setItem('mynvoKeyMapping', JSON.stringify(keyMapping));
-            console.log('💾 Configuration des touches sauvegardée');
-        } catch (e) {
-            console.warn('⚠️ Impossible de sauvegarder la configuration');
-        }
-    }
-    
-    // Créer un événement clavier simulé
-    function createKeyEvent(type, keyCode) {
-        const keyNames = {
-            38: 'ArrowUp',
-            40: 'ArrowDown',
-            37: 'ArrowLeft',
-            39: 'ArrowRight',
-            32: ' '
-        };
-        
-        const keyCodes = {
-            38: 'ArrowUp',
-            40: 'ArrowDown',
-            37: 'ArrowLeft',
-            39: 'ArrowRight',
-            32: 'Space'
-        };
-        
-        return new KeyboardEvent(type, {
-            key: keyNames[keyCode],
-            code: keyCodes[keyCode],
-            keyCode: keyCode,
-            which: keyCode,
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            view: window
-        });
-    }
-    
-    // Gestionnaire principal des touches
-    function handleKeyEvent(e) {
-        // Ignorer si on est dans un input ou si on change une touche
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || isChangingKey) {
-            return;
-        }
-        
-        const pressedKey = e.key.toUpperCase();
-        let mappedKeyCode = null;
-        
-        // Vérifier si la touche pressée correspond à une de nos touches mappées
-        for (const [action, key] of Object.entries(keyMapping)) {
-            if (key.toUpperCase() === pressedKey) {
-                mappedKeyCode = arrowKeyCodes[action];
-                break;
-            }
-        }
-        
-        // Si une correspondance est trouvée
-        if (mappedKeyCode) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            
-            // Créer et dispatcher l'événement simulé
-            const simulatedEvent = createKeyEvent(e.type, mappedKeyCode);
-            
-            // Essayer d'injecter dans l'iframe
-            const iframe = document.getElementById('game-iframe');
-            if (iframe) {
-                try {
-                    // Tenter l'injection dans l'iframe (peut échouer avec cross-origin)
-                    if (iframe.contentWindow) {
-                        iframe.contentWindow.dispatchEvent(simulatedEvent);
-                    }
-                    
-                    if (iframe.contentDocument) {
-                        iframe.contentDocument.dispatchEvent(simulatedEvent);
-                        
-                        // Cibler spécifiquement le canvas
-                        const canvas = iframe.contentDocument.querySelector('canvas');
-                        if (canvas) {
-                            canvas.dispatchEvent(simulatedEvent);
-                        }
-                    }
-                } catch (err) {
-                    // En cas d'erreur cross-origin, dispatcher sur window
-                    window.dispatchEvent(simulatedEvent);
-                    document.dispatchEvent(simulatedEvent);
-                }
-            }
-            
-            // Dispatcher aussi sur le document principal
-            document.dispatchEvent(simulatedEvent);
-            window.dispatchEvent(simulatedEvent);
-            
-            // Feedback visuel (optionnel)
-            showKeyPress(pressedKey, mappedKeyCode);
-        }
-    }
-    
-    // Feedback visuel pour le debug
-    function showKeyPress(originalKey, mappedKeyCode) {
-        const keyNames = {
-            38: '↑',
-            40: '↓',
-            37: '←',
-            39: '→',
-            32: 'SPACE'
-        };
-        
-        console.log(`🎮 ${originalKey} → ${keyNames[mappedKeyCode]}`);
-    }
-    
-    // Initialiser les écouteurs d'événements
-    function initializeListeners() {
-        // Retirer les anciens écouteurs s'ils existent
-        if (window.customKeyHandler) {
-            ['keydown', 'keyup'].forEach(type => {
-                document.removeEventListener(type, window.customKeyHandler, true);
-                window.removeEventListener(type, window.customKeyHandler, true);
-            });
-        }
-        
-        // Créer le nouveau gestionnaire
-        const handler = handleKeyEvent.bind(this);
-        window.customKeyHandler = handler;
-        
-        // Ajouter les écouteurs avec capture pour intercepter avant le jeu
-        ['keydown', 'keyup'].forEach(type => {
-            document.addEventListener(type, handler, { capture: true, passive: false });
-            window.addEventListener(type, handler, { capture: true, passive: false });
-        });
-        
-        console.log('🎮 Écouteurs d\'événements initialisés');
-    }
-    
-    // Fonction pour changer une touche (à appeler depuis l'interface)
-    window.updateKeyMapping = function(action, newKey) {
-        if (keyMapping.hasOwnProperty(action)) {
-            keyMapping[action] = newKey.toUpperCase();
-            saveKeyMapping();
-            console.log(`✅ Touche ${action} changée pour: ${newKey}`);
-            return true;
-        }
-        return false;
-    };
-    
-    // Fonction pour réinitialiser les touches par défaut
-    window.resetKeyMapping = function() {
-        keyMapping = {
-            up: 'Z',
-            down: 'S',
-            left: 'Q',
-            right: 'D',
-            jump: ' '
-        };
-        saveKeyMapping();
-        console.log('🔄 Touches réinitialisées aux valeurs par défaut');
-    };
-    
-    // Fonction pour obtenir la configuration actuelle
-    window.getKeyMapping = function() {
-        return { ...keyMapping };
-    };
-    
-    // Fonction pour indiquer qu'on change une touche
-    window.setChangingKey = function(isChanging) {
-        isChangingKey = isChanging;
-    };
-    
-    // Attendre que le DOM soit prêt
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            loadKeyMapping();
-            initializeListeners();
-        });
-    } else {
-        loadKeyMapping();
-        initializeListeners();
-    }
-    
-    console.log('✅ Script de contrôles personnalisés chargé!');
-    console.log('📋 Configuration actuelle:', keyMapping);
-    
-})();
-
-// ========================================
-// INTÉGRATION AVEC L'INTERFACE EXISTANTE
-// ========================================
-
-// Fonction pour mettre à jour l'interface avec les touches actuelles
-function syncUIWithKeyMapping() {
-    const mapping = window.getKeyMapping();
-    if (mapping) {
-        document.getElementById('key-up').value = mapping.up;
-        document.getElementById('key-down').value = mapping.down;
-        document.getElementById('key-left').value = mapping.left;
-        document.getElementById('key-right').value = mapping.right;
-        document.getElementById('key-jump').value = mapping.jump;
-    }
-}
-
-// Modifier la fonction changeKey existante
-function changeKey(action) {
-    window.setChangingKey(true);
-    const input = document.getElementById(`key-${action}`);
-    input.style.borderColor = 'var(--warning)';
-    input.placeholder = 'Appuyez sur une touche...';
-    input.value = '';
-    
-    // Créer un écouteur temporaire pour capturer la nouvelle touche
-    const captureKey = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const newKey = e.key === ' ' ? ' ' : e.key.toUpperCase();
-        
-        // Vérifier si la touche n'est pas déjà utilisée
-        const currentMapping = window.getKeyMapping();
-        let alreadyUsed = false;
-        
-        for (const [existingAction, existingKey] of Object.entries(currentMapping)) {
-            if (existingKey === newKey && existingAction !== action) {
-                alert(`❌ Cette touche est déjà utilisée pour: ${existingAction}`);
-                alreadyUsed = true;
-                break;
-            }
-        }
-        
-        if (!alreadyUsed) {
-            // Mettre à jour la touche
-            window.updateKeyMapping(action, newKey);
-            input.value = newKey;
-            input.style.borderColor = 'var(--success)';
-            
-            // Feedback visuel
-            setTimeout(() => {
-                input.style.borderColor = 'var(--primary)';
-            }, 500);
-        } else {
-            // Restaurer la valeur précédente
-            input.value = currentMapping[action];
-            input.style.borderColor = 'var(--danger)';
-            setTimeout(() => {
-                input.style.borderColor = 'var(--primary)';
-            }, 500);
-        }
-        
-        input.placeholder = '';
-        window.setChangingKey(false);
-        
-        // Retirer l'écouteur
-        document.removeEventListener('keydown', captureKey, true);
-    };
-    
-    document.addEventListener('keydown', captureKey, { capture: true, once: false });
-    
-    // Annuler après 5 secondes
-    setTimeout(() => {
-        if (input.value === '') {
-            const currentMapping = window.getKeyMapping();
-            input.value = currentMapping[action];
-            input.style.borderColor = 'var(--primary)';
-            input.placeholder = '';
-            window.setChangingKey(false);
-            document.removeEventListener('keydown', captureKey, true);
-        }
-    }, 5000);
-}
-
-// Modifier la fonction resetControls existante
-function resetControls() {
-    window.resetKeyMapping();
-    syncUIWithKeyMapping();
-    
-    // Feedback visuel
-    const inputs = document.querySelectorAll('.key-input');
-    inputs.forEach(input => {
-        input.style.borderColor = 'var(--success)';
-        setTimeout(() => {
-            input.style.borderColor = 'var(--primary)';
-        }, 500);
-    });
-}
-
-// Synchroniser au chargement
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(syncUIWithKeyMapping, 100);
-});<script>
-// Écraser la fonction setupGameControls existante
-setupGameControls = function() {
-    console.log("🎮 Contrôles améliorés chargés!");
-    
-    const getKeyMapping = () => ({
-        up: config.controls.up,
-        down: config.controls.down,
-        left: config.controls.left,
-        right: config.controls.right,
-        jump: config.controls.jump
-    });
-    
-    const arrowKeyCodes = { up: 38, down: 40, left: 37, right: 39, jump: 32 };
-    
-    const createKeyEvent = (type, keyCode) => {
-        const keyMap = { 38: 'ArrowUp', 40: 'ArrowDown', 37: 'ArrowLeft', 39: 'ArrowRight', 32: ' ' };
-        const codeMap = { 38: 'ArrowUp', 40: 'ArrowDown', 37: 'ArrowLeft', 39: 'ArrowRight', 32: 'Space' };
-        
-        const event = new KeyboardEvent(type, {
-            key: keyMap[keyCode],
-            code: codeMap[keyCode],
-            keyCode: keyCode,
-            which: keyCode,
-            bubbles: true,
-            cancelable: true
-        });
-        
-        Object.defineProperty(event, 'keyCode', { value: keyCode });
-        Object.defineProperty(event, 'which', { value: keyCode });
-        return event;
-    };
-    
-    const handleKey = (e) => {
-        if (e.target.tagName === 'INPUT' || changingKey) return;
-        
-        const key = e.key.toUpperCase();
-        const mapping = getKeyMapping();
-        let code = null;
-        
-        for (const [action, mapKey] of Object.entries(mapping)) {
-            if (mapKey.toUpperCase() === key) {
-                code = arrowKeyCodes[action];
-                break;
-            }
-        }
-        
-        if (code) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const newEvent = createKeyEvent(e.type, code);
-            document.dispatchEvent(newEvent);
-            window.dispatchEvent(newEvent);
-            
-            const iframe = document.getElementById('game-iframe');
-            if (iframe) {
-                try {
-                    iframe.contentWindow.dispatchEvent(newEvent);
-                    iframe.contentDocument.dispatchEvent(newEvent);
-                } catch(err) {}
-            }
-        }
-    };
-    
-    ['keydown', 'keyup'].forEach(type => {
-        document.addEventListener(type, handleKey, { capture: true, passive: false });
-    });
-};
-
-// Réactiver immédiatement
-setupGameControls();
-</script>
+        console.log('✅ Système de touches personnalisées intégré');
+    </script>
 </body>
 </html>
