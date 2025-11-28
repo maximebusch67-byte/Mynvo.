@@ -7,16 +7,8 @@
     <style>
         :root {
             --primary: #7c62dc;
-            --primary-dark: #6a50c9;
-            --primary-light: #9580e8;
-            --primary-transparent: rgba(124, 98, 220, 0.15);
             --bg-dark: #0a0a0a;
-            --bg-card: rgba(30, 30, 40, 0.9);
             --text-light: #f0f0f0;
-            --text-muted: #aaa;
-            --success: #00cc66;
-            --danger: #ff4444;
-            --warning: #ffaa00;
         }
 
         * {
@@ -30,447 +22,141 @@
             background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
             color: var(--text-light);
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
             text-align: center;
-            padding: 2rem 0;
+            padding: 2rem;
         }
 
         .logo {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: 900;
             margin-bottom: 1rem;
         }
 
         .logo span {
             color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-transparent);
         }
 
         .tagline {
-            font-size: 1.2rem;
-            color: var(--text-muted);
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--primary), #6a50c9);
+            color: white;
+            border: none;
+            padding: 1.5rem 4rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(124, 98, 220, 0.3);
             margin-bottom: 2rem;
         }
 
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(124, 98, 220, 0.4);
         }
 
-        .feature-card {
-            background: var(--bg-card);
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            max-width: 800px;
+        }
+
+        .feature {
+            background: rgba(30, 30, 40, 0.9);
             padding: 2rem;
             border-radius: 15px;
             border: 2px solid var(--primary);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
         }
 
         .feature-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
-
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        /* Play Section */
-        .play-section {
-            text-align: center;
-            margin: 4rem 0;
-        }
-
-        .play-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 1.5rem 3rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px var(--primary-transparent);
-        }
-
-        .play-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px var(--primary-transparent);
-        }
-
-        .extension-alert {
-            background: var(--bg-card);
-            border: 2px solid var(--primary);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 600px;
-            text-align: center;
-            display: none;
-        }
-
-        .extension-alert h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .download-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 1rem 0;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .steps {
-            text-align: left;
-            margin: 2rem 0;
-        }
-
-        .step {
-            margin: 1rem 0;
-            padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-
-        /* Top 3 Section */
-        .top3-section {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 2px solid var(--primary);
-            margin: 3rem 0;
-        }
-
-        .top3-title {
-            text-align: center;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 2rem;
-        }
-
-        .top3-list {
-            list-style: none;
-        }
-
-        .top3-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            margin: 1rem 0;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-
-        .top3-rank {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-right: 1rem;
-            color: var(--primary);
-        }
-
-        .top3-name {
-            flex: 1;
-            font-size: 1.2rem;
-        }
-
-        .top3-score {
-            color: var(--text-muted);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--primary-transparent);
-            margin-top: 4rem;
-        }
-
-        /* Mobile Controls */
-        .mobile-controls {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: none;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 1000;
-        }
-
-        .control-btn {
-            background: rgba(0,0,0,0.8);
-            border: 2px solid var(--primary);
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .feature-card {
-                padding: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                🚇 Subway<span>Surfers</span> by <span>Mynvo</span>
-            </div>
-            <div class="tagline">
-                L'expérience Subway Surfers ultime avec contrôles ZQSD et classements en temps réel
-            </div>
-        </header>
+        <div class="logo">
+            🚇 Subway<span>Surfers</span> by <span>Mynvo</span>
+        </div>
+        <div class="tagline">
+            L'expérience ultime avec overlays et contrôles ZQSD
+        </div>
 
-        <section class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3 class="feature-title">Contrôles ZQSD</h3>
-                <p>Joue avec les touches ZQSD comme un pro ! Installation facile de l'extension.</p>
-            </div>
-            
-            <div class="feature-card">
+        <button class="play-btn" onclick="launchGame()">
+            🎮 JOUER MAINTENANT
+        </button>
+
+        <div class="features">
+            <div class="feature">
                 <div class="feature-icon">🏆</div>
-                <h3 class="feature-title">Classement Live</h3>
-                <p>Top 3 des meilleurs joueurs Mynvo. Les scores sont mis à jour en temps réel.</p>
+                <h3>Top 3 Live</h3>
+                <p>Classement en temps réel des meilleurs joueurs</p>
             </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Performance Max</h3>
-                <p>Interface optimisée pour une expérience de jeu fluide et réactive.</p>
+            <div class="feature">
+                <div class="feature-icon">⏱️</div>
+                <h3>Timer Speedrun</h3>
+                <p>Chronomètre professionnel pour les speedruns</p>
             </div>
-        </section>
-
-        <section class="play-section">
-            <button class="play-btn" onclick="startGame()">
-                🎮 JOUER MAINTENANT AVEC ZQSD
-            </button>
-            
-            <div class="extension-alert" id="extension-alert">
-                <h3>🎯 Pour les touches ZQSD</h3>
-                <p>Installe l'extension Mynvo pour profiter des contrôles ZQSD optimisés !</p>
-                
-                <a href="extension/mynvo-extension.zip" download class="download-btn">
-                    📥 Télécharger l'Extension Mynvo
-                </a>
-                
-                <div class="steps">
-                    <div class="step">
-                        <strong>Étape 1:</strong> Télécharge le fichier ZIP ci-dessus
-                    </div>
-                    <div class="step">
-                        <strong>Étape 2:</strong> Décompresse le dossier
-                    </div>
-                    <div class="step">
-                        <strong>Étape 3:</strong> Va sur <code>chrome://extensions/</code>
-                    </div>
-                    <div class="step">
-                        <strong>Étape 4:</strong> Active le "Mode développeur"
-                    </div>
-                    <div class="step">
-                        <strong>Étape 5:</strong> Clique sur "Charger l'extension non empaquetée"
-                    </div>
-                    <div class="step">
-                        <strong>Étape 6:</strong> Sélectionne le dossier décompressé
-                    </div>
-                </div>
-                
-                <p><small>Une fois installée, reviens sur cette page et clique sur "JOUER" !</small></p>
-                
-                <button onclick="playWithoutExtension()" style="background: var(--warning); color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                    🎮 Jouer sans extension (touches fléchées)
-                </button>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Stats Avancées</h3>
+                <p>FPS, score, distance et bien plus</p>
             </div>
-        </section>
+        </div>
 
-        <section class="top3-section">
-            <h2 class="top3-title">🏆 CLASSEMENT MYNVO</h2>
-            <ul class="top3-list">
-                <li class="top3-item">
-                    <span class="top3-rank">🥇</span>
-                    <span class="top3-name">Mynvo_Pro</span>
-                    <span class="top3-score">1,250,000 pts</span>
-                </li>
-                <li class="top3-item">
-                    <span class="top3-rank">🥈</span>
-                    <span class="top3-name">SpeedRunner_Z</span>
-                    <span class="top3-score">980,000 pts</span>
-                </li>
-                <li class="top3-item">
-                    <span class="top3-rank">🥉</span>
-                    <span class="top3-name">Subway_King</span>
-                    <span class="top3-score">875,000 pts</span>
-                </li>
-            </ul>
-        </section>
-
-        <footer>
-            <p>Subway Surfers 2025 by Mynvo © - Tous droits réservés</p>
-            <p style="margin-top: 1rem; font-size: 0.9rem;">
-                🎮 Extension officielle Mynvo - Optimisée pour les contrôles ZQSD
-            </p>
-        </footer>
-    </div>
-
-    <!-- Contrôles mobiles -->
-    <div class="mobile-controls" id="mobile-controls">
-        <button class="control-btn" onclick="sendKey('ArrowLeft')">←</button>
-        <button class="control-btn" onclick="sendKey('ArrowUp')">↑</button>
-        <button class="control-btn" onclick="sendKey('ArrowDown')">↓</button>
-        <button class="control-btn" onclick="sendKey('ArrowRight')">→</button>
-        <button class="control-btn" onclick="sendKey(' ')">␣</button>
+        <p style="opacity: 0.7; margin-top: 2rem;">
+            Une fois le jeu ouvert, utilise le bouton ⚙️ en haut à droite pour afficher les overlays
+        </p>
     </div>
 
     <script>
-        let gameWindow = null;
-
-        // Détecter si l'extension est installée
-        function checkExtension() {
-            return new Promise((resolve) => {
-                // Vérifier si l'extension est détectable
-                if (window.chrome && chrome.runtime) {
-                    // Essayer de communiquer avec l'extension
-                    try {
-                        chrome.runtime.sendMessage('extension-id', { type: 'ping' }, (response) => {
-                            resolve(response && response.installed === true);
-                        });
-                        setTimeout(() => resolve(false), 1000);
-                    } catch (e) {
-                        resolve(false);
-                    }
-                } else {
-                    resolve(false);
-                }
-            });
-        }
-
-        // Démarrer le jeu
-        async function startGame() {
-            const hasExtension = await checkExtension();
+        function launchGame() {
+            // Ouvrir la fenêtre de jeu avec tous les overlays
+            const gameWindow = window.open(
+                'game.html', // Notre page de jeu personnalisée
+                'SubwaySurfersMynvo',
+                'width=1200,height=800,left=100,top=100,resizable=yes,scrollbars=yes'
+            );
             
-            if (!hasExtension) {
-                // Montrer l'alerte d'installation d'extension
-                document.getElementById('extension-alert').style.display = 'block';
-                document.getElementById('extension-alert').scrollIntoView({ behavior: 'smooth' });
+            if (!gameWindow) {
+                alert('Veuillez autoriser les popups pour ce site');
                 return;
             }
 
-            // Lancer le jeu avec extension détectée
-            launchGame();
+            // Vérifier si l'extension est installée
+            setTimeout(() => {
+                if (gameWindow) {
+                    gameWindow.postMessage({ type: 'CHECK_EXTENSION' }, '*');
+                }
+            }, 2000);
         }
 
-        // Lancer le jeu
-        function launchGame() {
-            // Ouvrir le jeu dans une nouvelle fenêtre
-            gameWindow = window.open(
-                'https://3kh0.github.io/projects/subway-surfers/index.html',
-                'SubwaySurfersMynvo',
-                'width=1200,height=800,left=100,top=100'
-            );
-            
-            // Afficher les contrôles mobiles si sur mobile
-            if (window.innerWidth <= 768) {
-                document.getElementById('mobile-controls').style.display = 'flex';
-            }
-        }
-
-        // Jouer sans extension
-        function playWithoutExtension() {
-            document.getElementById('extension-alert').style.display = 'none';
-            launchGame();
-        }
-
-        // Envoyer des touches (pour mobile)
-        function sendKey(key) {
-            if (gameWindow && !gameWindow.closed) {
-                try {
-                    // Simuler l'envoi de touches (fonctionne partiellement selon les jeux)
-                    gameWindow.focus();
-                    
-                    // Pour les jeux Unity WebGL, on peut essayer d'envoyer des événements
-                    const event = new KeyboardEvent('keydown', {
-                        key: key,
-                        keyCode: getKeyCode(key),
-                        which: getKeyCode(key),
-                        bubbles: true
-                    });
-                    
-                    gameWindow.document.dispatchEvent(event);
-                } catch (e) {
-                    console.log('Impossible d\'envoyer la touche:', e);
+        // Écouter les messages de la fenêtre de jeu
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'EXTENSION_STATUS') {
+                if (!event.data.installed) {
+                    // Proposer de télécharger l'extension
+                    if (confirm('Pour les contrôles ZQSD, voulez-vous télécharger l\'extension Mynvo ?')) {
+                        window.open('extension/mynvo-extension.zip', '_blank');
+                    }
                 }
             }
-        }
-
-        // Helper pour les keycodes
-        function getKeyCode(key) {
-            const keyMap = {
-                'ArrowUp': 38,
-                'ArrowDown': 40,
-                'ArrowLeft': 37,
-                'ArrowRight': 39,
-                ' ': 32
-            };
-            return keyMap[key] || key.charCodeAt(0);
-        }
-
-        // Vérifier périodiquement si l'extension est installée
-        setInterval(async () => {
-            const hasExtension = await checkExtension();
-            if (hasExtension) {
-                // Cacher l'alerte si l'extension est installée
-                document.getElementById('extension-alert').style.display = 'none';
-            }
-        }, 5000);
-
-        // Détection mobile
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            document.getElementById('mobile-controls').style.display = 'flex';
-        }
+        });
     </script>
 </body>
 </html>
